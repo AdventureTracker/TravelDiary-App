@@ -13,14 +13,6 @@ repositories {
 }
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'storekey'
-            keyPassword 'Andromeda246'
-            storeFile file('C:/Users/Barbora/.android/storekey.jks')
-            storePassword 'Andromeda246'
-        }
-    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
     defaultConfig {
