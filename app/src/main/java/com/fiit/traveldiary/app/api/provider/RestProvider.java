@@ -7,11 +7,11 @@ import com.fiit.traveldiary.app.exceptions.InternalException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -20,9 +20,6 @@ import java.net.URL;
  */
 public class RestProvider implements ApiProvider {
 
-	private HttpURLConnection connection;
-
-	// TODO: move config values to configuration object or manifest
 	private static final String API_LOCATION = "https://api.jakubove.zbytocnosti.sk";
 	private static final int API_VERSION = 1;
 
@@ -33,6 +30,7 @@ public class RestProvider implements ApiProvider {
 	public ApiResponse execute(ApiRequest request) throws InternalException {
 
 		URL url;
+		HttpsURLConnection connection;
 
 		try {
 
@@ -40,7 +38,7 @@ public class RestProvider implements ApiProvider {
 			url = new URL(String.format("%s/v%d/%s", API_LOCATION, API_VERSION, request.getUri()));
 
 			// Opening HttpURLConnection
-			this.connection = (HttpURLConnection) url.openConnection();
+			connection = (HttpsURLConnection) url.openConnection();
 
 			// Setting method
 			connection.setRequestMethod(request.getMethod().toString());

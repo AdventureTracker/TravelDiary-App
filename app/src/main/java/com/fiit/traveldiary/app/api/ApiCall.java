@@ -18,7 +18,9 @@ public class ApiCall {
 
 		try {
 			this.provider = provider.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException e) {
+			throw new InternalException("Unable to create ApiProvider instance!", e);
+		} catch (IllegalAccessException e) {
 			throw new InternalException("Unable to create ApiProvider instance!", e);
 		}
 
