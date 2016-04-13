@@ -1,10 +1,20 @@
 package com.fiit.traveldiary.app.activities;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.fiit.traveldiary.app.R;
+import com.fiit.traveldiary.app.api.ApiCall;
+import com.fiit.traveldiary.app.api.ApiMethod;
+import com.fiit.traveldiary.app.api.ApiRequest;
+import com.fiit.traveldiary.app.api.ApiResponse;
+import com.fiit.traveldiary.app.api.provider.ApiProvider;
+import com.fiit.traveldiary.app.api.provider.RestProvider;
+import com.fiit.traveldiary.app.exceptions.InternalException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		NetworkOperations networkOperations = new NetworkOperations();
+		networkOperations.execute();
+
 	}
 
 	@Override
@@ -35,4 +49,31 @@ public class MainActivity extends AppCompatActivity {
 
 		return super.onOptionsItemSelected(item);
 	}
+
+	public class NetworkOperations extends AsyncTask<Void, Integer, ApiResponse> {
+
+		@Override
+		protected ApiResponse doInBackground(Void... params) {
+
+			ApiCall call;
+
+			try {
+				call = new ApiCall(new ApiRequest(ApiMethod.GET_METHOD, "status"), RestProvider.class);
+			} catch (InternalException e) {
+				return null;
+			}
+
+			return call.execute();
+
+		}
+
+		protected void onPostExecute(ApiResponse response) {
+
+			if (response != null)
+				Log.w("API Response", response.getContent().toString());
+			else
+				Log.w("API Response", "Invalid API Call");
+		}
+	}
+
 }

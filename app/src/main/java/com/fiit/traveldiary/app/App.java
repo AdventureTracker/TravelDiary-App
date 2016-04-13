@@ -8,7 +8,7 @@ import com.securepreferences.SecurePreferences;
  */
 public class App extends Application {
 
-	private static App instance;
+	private static App instance = new App();
 	private SecurePreferences preferences;
 
 	private App() {

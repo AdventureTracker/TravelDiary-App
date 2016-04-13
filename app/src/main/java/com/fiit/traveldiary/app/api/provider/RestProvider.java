@@ -1,13 +1,14 @@
 package com.fiit.traveldiary.app.api.provider;
 
-import com.fiit.traveldiary.app.App;
 import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.exceptions.InternalException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -32,6 +33,13 @@ public class RestProvider implements ApiProvider {
 		URL url;
 		HttpsURLConnection connection;
 
+		HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+			@Override
+			public boolean verify(String hostname, SSLSession session) {
+				return hostname.equals("api.jakubove.zbytocnosti.sk");
+			}
+		};
+
 		try {
 
 			// Creating URL object based on ApiRequest
@@ -40,31 +48,37 @@ public class RestProvider implements ApiProvider {
 			// Opening HttpURLConnection
 			connection = (HttpsURLConnection) url.openConnection();
 
+			// Hostname verifer
+			connection.setHostnameVerifier(hostnameVerifier);
+
 			// Setting method
 			connection.setRequestMethod(request.getMethod().toString());
 
 			// Preparing headers
 			connection.setRequestProperty("Content-Type", "application/json");
 
-			if (App.getInstance().getPreferences().getString("DEVICE_UUID", null) != null)
-				connection.setRequestProperty(DEVICE_HEADER, App.getInstance().getPreferences().getString("DEVICE_UUID", ""));
-
-			if (App.getInstance().getPreferences().getString("USER_TOKEN", null) != null)
-				connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));
+//			if (App.getInstance().getPreferences().getString("DEVICE_UUID", null) != null)
+//				connection.setRequestProperty(DEVICE_HEADER, App.getInstance().getPreferences().getString("DEVICE_UUID", ""));
+//
+//			if (App.getInstance().getPreferences().getString("USER_TOKEN", null) != null)
+//				connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));
 
 			connection.setDoInput(true);
-			connection.setDoOutput(true);
 			connection.setUseCaches(false);
 
 
 			// If request method has body
 			if (request.getMethod().hasBody()) {
 
+				connection.setDoOutput(true);
+
 				OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 				writer.write(request.getContent().toString());
 				writer.flush();
 
 			}
+
+			connection.connect();
 
 		} catch (MalformedURLException e) {
 			throw new InternalException("Invalid request!", e);
@@ -77,7 +91,16 @@ public class RestProvider implements ApiProvider {
 
 		try {
 			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			responseObject = new JSONObject(reader.toString());
+			StringBuilder stringBuilder = new StringBuilder();
+			String line;
+
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line);
+			}
+
+			reader.close();
+			responseObject = new JSONObject(stringBuilder.toString());
+
 		} catch (IOException e) {
 			throw new InternalException("Some kind of shitty IO exception", e);
 		} catch (JSONException e) {
