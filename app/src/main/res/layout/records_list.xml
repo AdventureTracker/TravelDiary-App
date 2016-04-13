@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:id="@+id/imageView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:text="Add text as destination and started at"
+            android:id="@+id/textView" android:layout_below="@+id/imageView" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:minLines="2"/>
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView2" android:layout_below="@+id/textView" android:layout_centerHorizontal="true"/>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:id="@+id/frameLayout">
+
+
+        <ImageButton
+                android:layout_margin="15dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/sign"
+                android:background="@drawable/circle"
+                android:id="@+id/imageButton"
+                android:layout_gravity="right|bottom" />
+
+
+    </FrameLayout>
+</RelativeLayout>
