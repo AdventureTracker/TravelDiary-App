@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -81,16 +83,16 @@ public class User extends Model {
 	}
 
 	@Override
-	public String toJSON() {
+	public JSONObject toJSON() {
 		return null;
 	}
 
 	@Override
-	public boolean parseJSON() {
+	public boolean parseJSON(JSONObject jsonObject) {
 		return false;
 	}
 
-	public String __toString() {
+	public String toString() {
 		return String.format("%s %s (%s)", this.firstName, this.lastName, this.email);
 	}
 

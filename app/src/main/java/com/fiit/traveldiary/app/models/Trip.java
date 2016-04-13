@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -108,12 +110,12 @@ public class Trip extends Model {
 	}
 
 	@Override
-	public String toJSON() {
+	public JSONObject toJSON() {
 		return null;
 	}
 
 	@Override
-	public boolean parseJSON() {
+	public boolean parseJSON(JSONObject jsonObject) {
 		return false;
 	}
 }

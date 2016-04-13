@@ -13,7 +13,6 @@ public class ApiCall {
 	private ApiRequest request;
 	private ApiProvider provider;
 
-	@TargetApi(Build.VERSION_CODES.KITKAT)
 	public ApiCall(ApiRequest request, Class<ApiProvider> provider) throws InternalException {
 		this.request = request;
 
@@ -26,6 +25,11 @@ public class ApiCall {
 	}
 
 	public ApiResponse execute() {
-		return this.provider.execute(request);
+		try {
+			return this.provider.execute(request);
+		} catch (InternalException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

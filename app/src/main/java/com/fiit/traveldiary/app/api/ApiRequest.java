@@ -1,38 +1,36 @@
 package com.fiit.traveldiary.app.api;
 
+import org.json.JSONObject;
+
 /**
  * Created by jdubec on 13/04/16.
  */
 public class ApiRequest {
 
-	enum ApiRequestTypeEnum {
-		POST_REQUEST, GET_REQUEST, PUT_REQUEST, DELETE_REQUEST, PATCH_REQUEST
-	}
-
-	private ApiRequestTypeEnum request;
+	private ApiMethod method;
 	private String uri;
-	private String content;
+	private JSONObject content;
 
-	public ApiRequest(ApiRequestTypeEnum request, String uri, String content) {
-		this.request = request;
+	public ApiRequest(ApiMethod method, String uri, JSONObject content) {
+		this.method = method;
 		this.uri = uri;
 		this.content = content;
 	}
 
-	public ApiRequest(ApiRequestTypeEnum request, String uri) {
-		this.request = request;
+	public ApiRequest(ApiMethod method, String uri) {
+		this.method = method;
 		this.uri = uri;
 	}
 
-	public ApiRequestTypeEnum getRequest() {
-		return request;
+	public ApiMethod getMethod() {
+		return method;
 	}
 
 	public String getUri() {
 		return uri;
 	}
 
-	public String getContent() {
+	public JSONObject getContent() {
 		return content;
 	}
 }

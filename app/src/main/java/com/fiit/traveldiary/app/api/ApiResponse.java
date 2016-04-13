@@ -1,14 +1,16 @@
 package com.fiit.traveldiary.app.api;
 
+import org.json.JSONObject;
+
 /**
  * Created by jdubec on 13/04/16.
  */
 public class ApiResponse {
 
 	private int status;
-	private String content;
+	private JSONObject content;
 
-	public ApiResponse(int status, String content) {
+	public ApiResponse(int status, JSONObject content) {
 		this.status = status;
 		this.content = content;
 	}
@@ -21,11 +23,11 @@ public class ApiResponse {
 		this.status = status;
 	}
 
-	public String getContent() {
+	public JSONObject getContent() {
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(JSONObject content) {
 		this.content = content;
 	}
 }

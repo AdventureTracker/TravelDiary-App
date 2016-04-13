@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import org.json.JSONObject;
+
 /**
  * Created by jdubec on 13/04/16.
  */
@@ -22,16 +24,16 @@ public class Enum extends Model {
 	}
 
 	@Override
-	public String toJSON() {
+	public JSONObject toJSON() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public boolean parseJSON() {
+	public boolean parseJSON(JSONObject jsonObject) {
 		return false;
 	}
 
-	public String __toString() {
+	public String toString() {
 		return this.description;
 	}
 
