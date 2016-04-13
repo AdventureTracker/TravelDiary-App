@@ -9,8 +9,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:weightSum="1"
-            android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_marginTop="72dp">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true" android:layout_alignParentEnd="true">
         <EditText
                 android:layout_width="300dp"
                 android:layout_height="60dp"
@@ -46,7 +47,7 @@
                 android:layout_height="50dp"
                 android:text="Save"
                 android:id="@+id/save" android:layout_gravity="bottom|right" android:layout_marginRight="56dp"
-                android:background="#5d95f6" android:textAppearance="#000000" android:textColorHighlight="#000000"
+                android:background="#5d95f6" android:textColorHighlight="#000000"
                 android:singleLine="false" android:elegantTextHeight="false"/>
 
     </LinearLayout>
