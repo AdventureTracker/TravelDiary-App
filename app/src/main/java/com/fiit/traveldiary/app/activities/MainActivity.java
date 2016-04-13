@@ -1,10 +1,12 @@
-package com.fiit.traveldiary.app;
+package com.fiit.traveldiary.app.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.fiit.traveldiary.app.ApiWrapper;
+import com.fiit.traveldiary.app.R;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
