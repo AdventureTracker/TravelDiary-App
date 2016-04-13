@@ -47,8 +47,13 @@ public class RestProvider implements ApiProvider {
 
 			// Preparing headers
 			connection.setRequestProperty("Content-Type", "application/json");
-			connection.setRequestProperty(DEVICE_HEADER, App.getInstance().getPreferences().getString("DEVICE_UUID", ""));
-			connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));
+
+			if (App.getInstance().getPreferences().getString("DEVICE_UUID", null) != null)
+				connection.setRequestProperty(DEVICE_HEADER, App.getInstance().getPreferences().getString("DEVICE_UUID", ""));
+
+			if (App.getInstance().getPreferences().getString("USER_TOKEN", null) != null)
+				connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));
+
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
 			connection.setUseCaches(false);
