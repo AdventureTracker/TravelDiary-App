@@ -30,7 +30,7 @@
                 android:layout_width="176dp"
                 android:layout_height="wrap_content"
                 android:text="Log In"
-                android:id="@+id/logIn"
+                android:id="@+id/logInButton"
                 android:textColor="#ffffff" android:layout_below="@+id/password"
                 android:layout_centerHorizontal="true" android:layout_marginTop="86dp"
                 android:layout_gravity="center_horizontal" android:alpha="0.7" android:background="#000000"/>
