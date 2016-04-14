@@ -19,20 +19,20 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        findViewById(R.id.button).setOnClickListener(this);
+        findViewById(R.id.logInButton).setOnClickListener(this);
     }
 
-    private EditText getEditText(){
-        return (EditText) findViewById(R.id.editText);
+    private EditText getUsername(){
+        return (EditText) findViewById(R.id.username);
     }
 
-    private EditText getEditText2(){
-        return (EditText) findViewById(R.id.editText2);
+    private EditText getPassword(){
+        return (EditText) findViewById(R.id.password);
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button:
+            case R.id.logInButton:
                 //TODO implement
                 break;
         }
