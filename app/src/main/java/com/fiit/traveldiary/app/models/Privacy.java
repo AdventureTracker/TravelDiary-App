@@ -9,4 +9,9 @@ public class Privacy extends Enum {
 	public Privacy(long id, String code, String description) {
 		super(id, code, description);
 	}
+
+	public Privacy(String code) {
+		super(code);
+
+	}
 }

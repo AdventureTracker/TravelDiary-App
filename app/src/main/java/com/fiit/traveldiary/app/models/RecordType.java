@@ -9,4 +9,8 @@ public class RecordType extends Enum {
 	public RecordType(long id, String code, String description) {
 		super(id, code, description);
 	}
+
+	public RecordType(String code) {
+		super(code);
+	}
 }

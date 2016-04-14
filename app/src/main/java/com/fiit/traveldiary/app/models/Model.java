@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -7,7 +9,14 @@ import org.json.JSONObject;
  */
 public abstract class Model {
 
-	public abstract JSONObject toJSON();
-	public abstract boolean parseJSON(JSONObject jsonObject);
+	public Model(JSONObject object) throws InvalidInputException, JSONException {
+		this.parseJSON(object);
+	}
+
+	public Model() {
+	}
+
+	public abstract JSONObject toJSON(boolean detailed) throws JSONException;
+	public abstract boolean parseJSON(JSONObject jsonObject) throws JSONException, InvalidInputException;
 
 }
