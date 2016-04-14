@@ -23,8 +23,8 @@
             android:layout_height="70dp"
             android:src="@drawable/sign"
             android:background="@drawable/circle"
-            android:id="@+id/imageButton"
-            android:layout_gravity="right|bottom" />
+            android:id="@+id/circleButton"
+            android:layout_gravity="right|bottom" android:focusableInTouchMode="false"/>
 
 
 </FrameLayout>
