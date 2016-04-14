@@ -7,16 +7,16 @@
             android:layout_width="fill_parent"
             android:layout_height="400dp"
             android:text="New Text"
-            android:id="@+id/textView2" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+            android:id="@+id/description" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
 
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_below="@+id/textView2">
+            android:layout_height="match_parent" android:layout_below="@+id/description">
         <GridView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/gridView"/>
+                android:id="@+id/galleryGridView"/>
     </LinearLayout>
 
 
