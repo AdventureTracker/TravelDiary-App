@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.widget.TextView;
 import android.widget.GridView;
+import com.fiit.traveldiary.app.R;
 
 public class RecordActivity extends Activity  {
 

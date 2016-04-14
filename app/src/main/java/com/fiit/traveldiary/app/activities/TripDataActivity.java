@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import com.fiit.traveldiary.app.R;
 
 public class TripDataActivity extends Activity implements View.OnClickListener {
 

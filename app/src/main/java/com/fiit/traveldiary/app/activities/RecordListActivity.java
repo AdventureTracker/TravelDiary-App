@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.ListView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import com.fiit.traveldiary.app.R;
 
 
 public class RecordListActivity extends Activity implements View.OnClickListener {

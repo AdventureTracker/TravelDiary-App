@@ -1,6 +1,7 @@
 package com.fiit.traveldiary.app.activities;
 
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import com.fiit.traveldiary.app.App;
 import com.fiit.traveldiary.app.R;
 import com.fiit.traveldiary.app.api.ApiCall;
 import com.fiit.traveldiary.app.api.ApiMethod;
@@ -20,12 +22,21 @@ import com.fiit.traveldiary.app.models.RecordType;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.record_data);
+
+		String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+		Log.w("UUID", android_id);
+
+//		App app = App.getInstance();
+
+//		if (App.getInstance().getPreferences().getString("DEVICE_UUID", ))
 
 		List<RecordType> recordTypeList = new ArrayList<RecordType>();
 
