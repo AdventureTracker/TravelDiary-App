@@ -5,7 +5,7 @@ import android.util.Log;
 /**
  * Created by jdubec on 13/04/16.
  */
-public class InternalException extends Exception {
+public class InternalException extends BaseException {
 
 	public InternalException(String detailMessage, Throwable throwable) {
 		super(detailMessage, throwable);
