@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public abstract class Model {
 
 	public Model(JSONObject object) throws InvalidInputException, JSONException {
+		super();
 		this.parseJSON(object);
 	}
 

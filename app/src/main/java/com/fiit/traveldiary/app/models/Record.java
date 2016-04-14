@@ -4,6 +4,7 @@ import com.fiit.traveldiary.app.exceptions.InvalidInputException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +26,10 @@ public class Record extends Model {
 	private Date updatedAt;
 
 	private List<Photo> photos;
+
+	public Record() {
+		this.photos = new ArrayList<Photo>();
+	}
 
 	public Record(JSONObject object) throws InvalidInputException, JSONException {
 		super(object);

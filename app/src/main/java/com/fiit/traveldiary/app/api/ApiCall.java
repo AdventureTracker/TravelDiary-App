@@ -15,7 +15,7 @@ public class ApiCall {
 	private ApiRequest request;
 	private ApiProvider provider;
 
-	public ApiCall(ApiRequest request, Class<RestProvider> provider) throws InternalException {
+	public <T extends ApiProvider> ApiCall(ApiRequest request, Class<T> provider) throws InternalException {
 		this.request = request;
 
 		try {

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +32,11 @@ public class Trip extends Model {
 
 	private List<Record> records;
 	private List<User> users;
+
+	public Trip() {
+		this.records = new ArrayList<Record>();
+		this.users = new ArrayList<User>();
+	}
 
 	public Trip(JSONObject object) throws InvalidInputException, JSONException {
 		super(object);
@@ -224,20 +230,25 @@ public class Trip extends Model {
 
 		// Not required
 		if (jsonObject.has("records")) {
+
+			this.records.clear();
+
 			JSONArray recordsArray = jsonObject.getJSONArray("records");
 
 			for (int i = 0; i <= recordsArray.length(); i++) {
-				this.records.add(new Record(recordsArray.getJSONObject(i)));
+				this.addRecord(new Record(recordsArray.getJSONObject(i)));
 			}
 		}
 
 		// Not required
 		if (jsonObject.has("users")) {
 
+			this.users.clear();
+
 			JSONArray usersArray = jsonObject.getJSONArray("users");
 
 			for (int i = 0; i <= usersArray.length(); i++) {
-				this.users.add(new User(usersArray.getJSONObject(i)));
+				this.addUser(new User(usersArray.getJSONObject(i)));
 			}
 		}
 

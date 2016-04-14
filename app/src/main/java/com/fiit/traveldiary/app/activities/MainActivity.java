@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 		spinner.setAdapter(recordTypeArrayAdapter);
 
-//		NetworkOperations networkOperations = new NetworkOperations();
-//		networkOperations.execute();
+		NetworkOperations networkOperations = new NetworkOperations();
+		networkOperations.execute();
 
 	}
 
