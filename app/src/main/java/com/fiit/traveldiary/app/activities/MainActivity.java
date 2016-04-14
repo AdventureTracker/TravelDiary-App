@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
 //		NetworkOperations networkOperations = new NetworkOperations();
 //		networkOperations.execute();
 
-
-
-
 	}
 
 	@Override
