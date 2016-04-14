@@ -1,6 +1,5 @@
 package com.fiit.traveldiary.app.activities;
 
-import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,14 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import com.fiit.traveldiary.app.App;
 import com.fiit.traveldiary.app.R;
-import com.fiit.traveldiary.app.api.ApiCall;
-import com.fiit.traveldiary.app.api.ApiMethod;
-import com.fiit.traveldiary.app.api.ApiRequest;
-import com.fiit.traveldiary.app.api.ApiResponse;
-import com.fiit.traveldiary.app.api.provider.RestProvider;
-import com.fiit.traveldiary.app.exceptions.InternalException;
+import com.fiit.traveldiary.app.api.*;
 import com.fiit.traveldiary.app.models.RecordType;
 
 import java.util.ArrayList;
@@ -34,10 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
 		Log.w("UUID", android_id);
 
-//		App app = App.getInstance();
-
-//		if (App.getInstance().getPreferences().getString("DEVICE_UUID", ))
-
 		List<RecordType> recordTypeList = new ArrayList<RecordType>();
 
 		recordTypeList.add(new RecordType(46, "HITCHHIKING_START", "Hitchhiking start destination"));
@@ -50,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 		spinner.setAdapter(recordTypeArrayAdapter);
 
-		NetworkOperations networkOperations = new NetworkOperations();
-		networkOperations.execute();
+		NetworkSyncOperations networkOperations = new NetworkSyncOperations();
+		networkOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"), new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"), new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"));
 
 	}
 
@@ -75,32 +64,6 @@ public class MainActivity extends AppCompatActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	public class NetworkOperations extends AsyncTask<Void, Integer, ApiResponse> {
-
-		@Override
-		protected ApiResponse doInBackground(Void... params) {
-
-			ApiCall call;
-
-			try {
-				call = new ApiCall(new ApiRequest(ApiMethod.GET_METHOD, "status"), RestProvider.class);
-			} catch (InternalException e) {
-				return null;
-			}
-
-			return call.execute();
-
-		}
-
-		protected void onPostExecute(ApiResponse response) {
-
-			if (response != null)
-				Log.w("API Response", response.getContent().toString());
-			else
-				Log.w("API Response", "Invalid API Call");
-		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.fiit.traveldiary.app.api.provider;
 
+import android.provider.Settings;
 import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.exceptions.InternalException;
@@ -56,9 +57,7 @@ public class RestProvider implements ApiProvider {
 
 			// Preparing headers
 			connection.setRequestProperty("Content-Type", "application/json");
-
-//			if (App.getInstance().getPreferences().getString("DEVICE_UUID", null) != null)
-//				connection.setRequestProperty(DEVICE_HEADER, App.getInstance().getPreferences().getString("DEVICE_UUID", ""));
+			connection.setRequestProperty(DEVICE_HEADER, Settings.Secure.getString(request.getContentResolver(), Settings.Secure.ANDROID_ID));
 //
 //			if (App.getInstance().getPreferences().getString("USER_TOKEN", null) != null)
 //				connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));

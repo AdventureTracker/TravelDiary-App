@@ -1,10 +1,6 @@
 package com.fiit.traveldiary.app.api;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import com.fiit.traveldiary.app.api.provider.ApiProvider;
-import com.fiit.traveldiary.app.api.provider.RestProvider;
-import com.fiit.traveldiary.app.api.provider.WebsocketProvider;
 import com.fiit.traveldiary.app.exceptions.InternalException;
 
 /**
