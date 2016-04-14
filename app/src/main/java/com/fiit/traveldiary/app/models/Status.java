@@ -6,5 +6,7 @@ package com.fiit.traveldiary.app.models;
 public class Status extends Enum {
 
 
-
+	public Status(long id, String code, String description) {
+		super(id, code, description);
+	}
 }

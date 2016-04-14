@@ -6,25 +6,44 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import com.fiit.traveldiary.app.R;
 import com.fiit.traveldiary.app.api.ApiCall;
 import com.fiit.traveldiary.app.api.ApiMethod;
 import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
-import com.fiit.traveldiary.app.api.provider.ApiProvider;
 import com.fiit.traveldiary.app.api.provider.RestProvider;
 import com.fiit.traveldiary.app.exceptions.InternalException;
-import org.json.JSONObject;
+import com.fiit.traveldiary.app.models.RecordType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.record_data);
 
-		NetworkOperations networkOperations = new NetworkOperations();
-		networkOperations.execute();
+		List<RecordType> recordTypeList = new ArrayList<RecordType>();
+
+		recordTypeList.add(new RecordType(46, "HITCHHIKING_START", "Hitchhiking start destination"));
+		recordTypeList.add(new RecordType(42, "CAMPING", "Camping stuff"));
+
+		Spinner spinner = (Spinner) findViewById(R.id.recordType);
+
+		ArrayAdapter<RecordType> recordTypeArrayAdapter = new ArrayAdapter<RecordType>(this, android.R.layout.simple_spinner_item, recordTypeList);
+		recordTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		spinner.setAdapter(recordTypeArrayAdapter);
+
+//		NetworkOperations networkOperations = new NetworkOperations();
+//		networkOperations.execute();
+
+
+
 
 	}
 

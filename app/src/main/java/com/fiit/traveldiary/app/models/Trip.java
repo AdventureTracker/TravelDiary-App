@@ -3,6 +3,7 @@ package com.fiit.traveldiary.app.models;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jdubec on 13/04/16.
@@ -20,6 +21,8 @@ public class Trip extends Model {
 	private Date estimatedArrival;
 	private Date createdAt;
 	private Date updatedAt;
+
+	private List<Record> records;
 
 	public long getId() {
 		return id;
@@ -93,6 +96,14 @@ public class Trip extends Model {
 		this.estimatedArrival = estimatedArrival;
 	}
 
+	public void addRecord(Record record) {
+		this.records.add(record);
+	}
+
+	public boolean removeRecord(Record record) {
+		return this.records.contains(record) && this.records.remove(record);
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -111,6 +122,10 @@ public class Trip extends Model {
 
 	@Override
 	public JSONObject toJSON() {
+		JSONObject tripItem = new JSONObject();
+		JSONObject recordsItems = new JSONObject();
+		JSONObject userItems = new JSONObject();
+
 		return null;
 	}
 

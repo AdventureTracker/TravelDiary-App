@@ -6,5 +6,7 @@ package com.fiit.traveldiary.app.models;
 public class RecordType extends Enum {
 
 
-
+	public RecordType(long id, String code, String description) {
+		super(id, code, description);
+	}
 }

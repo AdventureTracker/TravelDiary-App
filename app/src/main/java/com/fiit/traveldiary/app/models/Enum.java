@@ -11,6 +11,15 @@ public class Enum extends Model {
 	private String code;
 	private String description;
 
+	public Enum() {
+	}
+
+	public Enum(long id, String code, String description) {
+		this.id = id;
+		this.code = code;
+		this.description = description;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -21,6 +30,18 @@ public class Enum extends Model {
 
 	public String getDescription() {
 		return description;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override

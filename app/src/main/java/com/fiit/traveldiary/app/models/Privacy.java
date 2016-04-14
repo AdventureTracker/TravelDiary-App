@@ -6,4 +6,7 @@ package com.fiit.traveldiary.app.models;
 public class Privacy extends Enum {
 
 
+	public Privacy(long id, String code, String description) {
+		super(id, code, description);
+	}
 }

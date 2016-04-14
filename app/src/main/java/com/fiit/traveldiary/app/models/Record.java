@@ -3,6 +3,7 @@ package com.fiit.traveldiary.app.models;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jdubec on 13/04/16.
@@ -19,6 +20,8 @@ public class Record extends Model {
 	private Location location;
 	private Date createdAt;
 	private Date updatedAt;
+
+	private List<Photo> photos;
 
 	public long getId() {
 		return id;
@@ -82,6 +85,27 @@ public class Record extends Model {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public void addPhoto(Photo photo) {
+		if (!this.photos.contains(photo))
+			this.photos.add(photo);
+	}
+
+	public boolean removePhoto(Photo photo) {
+		return this.photos.contains(photo) && this.photos.remove(photo);
+	}
+
+	public boolean removePhoto(String uuid) {
+		for (Photo photo : this.photos) {
+			if (photo.getUuid().equals(uuid))
+				return this.photos.remove(photo);
+		}
+		return false;
+	}
+
+	public List<Photo> getPhotos() {
+		return photos;
 	}
 
 	public Date getCreatedAt() {
