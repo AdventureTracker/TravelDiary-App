@@ -24,4 +24,10 @@
             android:id="@+id/selectPhoto" android:layout_centerVertical="true"
             android:layout_alignLeft="@+id/description" android:layout_alignStart="@+id/description"
             android:background="#4fbef1"/>
+    <Spinner
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:id="@+id/recordType" android:layout_below="@+id/description"
+            android:layout_alignStart="@+id/description"/>
+
 </RelativeLayout>
