@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -13,6 +15,10 @@ public class Photo extends Model {
 	private String uuid;
 	private String filename;
 	private Date createdAt;
+
+	public Photo(JSONObject object) throws InvalidInputException, JSONException {
+		super(object);
+	}
 
 	public long getId() {
 		return id;
@@ -47,7 +53,7 @@ public class Photo extends Model {
 	}
 
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON(boolean detailed) {
 		return null;
 	}
 

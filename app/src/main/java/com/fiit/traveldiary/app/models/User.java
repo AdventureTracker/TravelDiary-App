@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
@@ -17,6 +19,10 @@ public class User extends Model {
 	private Date lastSeen;
 	private Date createdAt;
 	private Date updatedAt;
+
+	public User(JSONObject object) throws InvalidInputException, JSONException {
+		super(object);
+	}
 
 	public long getId() {
 		return id;
@@ -83,7 +89,7 @@ public class User extends Model {
 	}
 
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON(boolean detailed) {
 		return null;
 	}
 

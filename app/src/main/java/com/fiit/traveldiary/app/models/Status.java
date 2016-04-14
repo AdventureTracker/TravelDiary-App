@@ -9,4 +9,8 @@ public class Status extends Enum {
 	public Status(long id, String code, String description) {
 		super(id, code, description);
 	}
+
+	public Status(String code) {
+		super(code);
+	}
 }

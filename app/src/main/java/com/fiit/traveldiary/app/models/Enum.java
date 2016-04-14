@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -11,13 +13,18 @@ public class Enum extends Model {
 	private String code;
 	private String description;
 
-	public Enum() {
-	}
-
 	public Enum(long id, String code, String description) {
 		this.id = id;
 		this.code = code;
 		this.description = description;
+	}
+
+	public Enum(String code) {
+		// TODO: Load from database
+	}
+
+	public Enum(JSONObject object) throws InvalidInputException, JSONException {
+		super(object);
 	}
 
 	public long getId() {
@@ -45,7 +52,7 @@ public class Enum extends Model {
 	}
 
 	@Override
-	public JSONObject toJSON() {
+	public JSONObject toJSON(boolean detailed) {
 		throw new UnsupportedOperationException();
 	}
 
