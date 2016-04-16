@@ -9,10 +9,12 @@ public class ApiResponse {
 
 	private int status;
 	private JSONObject content;
+	private ApiRequest originalRequest;
 
-	public ApiResponse(int status, JSONObject content) {
+	public ApiResponse(int status, JSONObject content, ApiRequest originalRequest) {
 		this.status = status;
 		this.content = content;
+		this.originalRequest = originalRequest;
 	}
 
 	public int getStatus() {
@@ -29,5 +31,9 @@ public class ApiResponse {
 
 	public void setContent(JSONObject content) {
 		this.content = content;
+	}
+
+	public ApiRequest getOriginalRequest() {
+		return originalRequest;
 	}
 }

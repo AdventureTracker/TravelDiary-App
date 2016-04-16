@@ -108,7 +108,7 @@ public class RestProvider implements ApiProvider {
 
 		try {
 			connection.disconnect();
-			return new ApiResponse(connection.getResponseCode(), responseObject);
+			return new ApiResponse(connection.getResponseCode(), responseObject, request);
 		} catch (IOException e) {
 			throw new InternalException("I have no fucking idea :(", e);
 		}
