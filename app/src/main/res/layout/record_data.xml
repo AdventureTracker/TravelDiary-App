@@ -7,8 +7,8 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:titleTextColor="#000000"/>
+            android:minHeight="?attr/actionBarSize"/>
+    <!-- android:titleTextColor="#000000"/> -->
     <EditText
             android:layout_width="300dp"
             android:layout_height="60dp"
