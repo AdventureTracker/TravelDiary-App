@@ -2,12 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:titleTextColor="#000000"/>
 
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="400dp"
             android:text="New Text"
-            android:id="@+id/description" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+            android:id="@+id/description" android:layout_centerHorizontal="true" android:layout_below="@+id/toolbar"/>
 
     <LinearLayout
             android:orientation="horizontal"

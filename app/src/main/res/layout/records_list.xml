@@ -3,10 +3,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:titleTextColor="#000000"/>
     <ImageView
             android:layout_width="fill_parent"
             android:layout_height="200dp"
-            android:id="@+id/imageView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+            android:id="@+id/imageView" android:layout_centerHorizontal="true"
+            android:layout_alignTop="@+id/frameLayout"/>
     <TextView
             android:layout_width="fill_parent"
             android:layout_height="100dp"
@@ -22,8 +30,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:id="@+id/frameLayout">
+            android:id="@+id/frameLayout" android:layout_below="@+id/toolbar">
 
 
         <ImageButton
