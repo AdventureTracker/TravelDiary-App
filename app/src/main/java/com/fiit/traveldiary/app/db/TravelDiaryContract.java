@@ -25,7 +25,7 @@ public final class TravelDiaryContract {
 					COLUMN_CODE + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 					COLUMN_DESCRIPTION + DatabaseConstants.SQLITE_TEXT_TYPE + ")";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class PrivacyEntry implements BaseColumns {
@@ -41,7 +41,7 @@ public final class TravelDiaryContract {
 					COLUMN_CODE + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 					COLUMN_DESCRIPTION + DatabaseConstants.SQLITE_TEXT_TYPE + ")";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class RecordTypeEntry implements BaseColumns {
@@ -57,27 +57,25 @@ public final class TravelDiaryContract {
 					COLUMN_CODE + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 					COLUMN_DESCRIPTION + DatabaseConstants.SQLITE_TEXT_TYPE + ")";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class UserEntry implements BaseColumns {
 		public static final String TABLE_NAME = "user";
 
 		public static final String COLUMN_ID_USER = "id_user";
-		public static final String COLUMN_FIRST_NAME = "usr_firstName";
-		public static final String COLUMN_LAST_NAME = "usr_lastName";
+		public static final String COLUMN_NAME = "usr_name";
 		public static final String COLUMN_EMAIL = "usr_email";
-		public static final String COLUMN_PASSWORD = "usr_password";
+		public static final String COLUMN_UUID = "usr_uuid";
 
 		public static final String CREATE_SQL =
 				"CREATE TABLE " + TABLE_NAME + " (" +
 					COLUMN_ID_USER + DatabaseConstants.SQLITE_INTEGER_TYPE + " PRIMARY KEY" + DatabaseConstants.COMMA_SEP +
-					COLUMN_FIRST_NAME + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
-					COLUMN_LAST_NAME + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
+					COLUMN_NAME + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 					COLUMN_EMAIL + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
-					COLUMN_PASSWORD + DatabaseConstants.SQLITE_TEXT_TYPE + ");";
+					COLUMN_UUID + DatabaseConstants.SQLITE_TEXT_TYPE + ");";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class TripEntry implements BaseColumns {
@@ -112,7 +110,7 @@ public final class TravelDiaryContract {
 						"FOREIGN KEY(" + COLUMN_ID_PRIVACY + ") REFERENCES " + PrivacyEntry.TABLE_NAME + "(" + PrivacyEntry.COLUMN_ID_PRIVACY + ")" +
 						");";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class RecordEntry implements BaseColumns {
@@ -150,7 +148,7 @@ public final class TravelDiaryContract {
 						"FOREIGN KEY(" + COLUMN_ID_USER + ") REFERENCES " + UserEntry.TABLE_NAME + "(" + UserEntry.COLUMN_ID_USER + ")" +
 						");";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class PhotoEntry implements BaseColumns {
@@ -172,7 +170,7 @@ public final class TravelDiaryContract {
 						"FOREIGN KEY(" + COLUMN_ID_RECORD + ") REFERENCES " + RecordEntry.TABLE_NAME + "(" + RecordEntry.COLUMN_ID_RECORD + ")" +
 						");";
 
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 	public static abstract class UserHaveTripEntry implements BaseColumns {
@@ -188,7 +186,7 @@ public final class TravelDiaryContract {
 						"FOREIGN KEY(" + COLUMN_ID_TRIP + ") REFERENCES " + TripEntry.TABLE_NAME + "(" + TripEntry.COLUMN_ID_TRIP + ")" +
 						"FOREIGN KEY(" + COLUMN_ID_USER + ") REFERENCES " + UserEntry.TABLE_NAME + "(" + UserEntry.COLUMN_ID_USER + ")" +
 						");";
-		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME;
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}
 
 }

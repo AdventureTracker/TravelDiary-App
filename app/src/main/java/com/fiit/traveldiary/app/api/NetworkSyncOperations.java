@@ -40,6 +40,7 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 				Log.w("API Response", "Invalid API Call");
 
 			if (response.getOriginalRequest().getMethod() == ApiMethod.GET_METHOD) {
+				Log.w("API Response", response.getOriginalRequest().getUri());
 				// TODO: create classes for DB persist
 			}
 

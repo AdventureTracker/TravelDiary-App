@@ -19,6 +19,8 @@ import java.util.Locale;
 public class Trip extends Model {
 
 	private long id;
+	private long idStatus;
+	private long idPrivacy;
 	private Status status;
 	private Privacy privacy;
 	private String uuid;
@@ -48,6 +50,22 @@ public class Trip extends Model {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getIdStatus() {
+		return idStatus;
+	}
+
+	public void setIdStatus(long idStatus) {
+		this.idStatus = idStatus;
+	}
+
+	public long getIdPrivacy() {
+		return idPrivacy;
+	}
+
+	public void setIdPrivacy(long idPrivacy) {
+		this.idPrivacy = idPrivacy;
 	}
 
 	public Status getStatus() {
@@ -106,12 +124,42 @@ public class Trip extends Model {
 		this.startDate = startDate;
 	}
 
+	public boolean setStartDateFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setStartDate(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getStartDateAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.startDate);
+	}
+
 	public Date getEstimatedArrival() {
 		return estimatedArrival;
 	}
 
 	public void setEstimatedArrival(Date estimatedArrival) {
 		this.estimatedArrival = estimatedArrival;
+	}
+
+	public boolean setEstimatedArrivalFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setEstimatedArrival(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getEstimatedArrivalAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.estimatedArrival);
 	}
 
 	public void addRecord(Record record) {
@@ -124,6 +172,10 @@ public class Trip extends Model {
 
 	public List<Record> getRecords() {
 		return this.records;
+	}
+
+	public void setRecords(List<Record> records) {
+		this.records = records;
 	}
 
 	public void addUser(User user) {
@@ -139,6 +191,10 @@ public class Trip extends Model {
 		return users;
 	}
 
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -147,12 +203,42 @@ public class Trip extends Model {
 		this.createdAt = createdAt;
 	}
 
+	public boolean setCreatedAtFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setCreatedAt(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getCreatedAtAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.createdAt);
+	}
+
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public boolean setUpdatedAtFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setUpdatedAt(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getUpdatedAtAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.updatedAt);
 	}
 
 	@Override

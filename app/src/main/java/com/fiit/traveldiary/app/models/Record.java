@@ -4,9 +4,13 @@ import com.fiit.traveldiary.app.exceptions.InvalidInputException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jdubec on 13/04/16.
@@ -15,6 +19,9 @@ public class Record extends Model {
 
 
 	private long id;
+	private long idTrip;
+	private long idRecordType;
+	private long idUser;
 	private Trip trip;
 	private RecordType recordType;
 	private User user;
@@ -33,6 +40,7 @@ public class Record extends Model {
 
 	public Record(JSONObject object) throws InvalidInputException, JSONException {
 		super(object);
+		this.location = new Location();
 	}
 
 	public long getId() {
@@ -41,6 +49,30 @@ public class Record extends Model {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getIdTrip() {
+		return idTrip;
+	}
+
+	public void setIdTrip(long idTrip) {
+		this.idTrip = idTrip;
+	}
+
+	public long getIdRecordType() {
+		return idRecordType;
+	}
+
+	public void setIdRecordType(long idRecordType) {
+		this.idRecordType = idRecordType;
+	}
+
+	public long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(long idUser) {
+		this.idUser = idUser;
 	}
 
 	public Trip getTrip() {
@@ -81,6 +113,21 @@ public class Record extends Model {
 
 	public void setDay(Date day) {
 		this.day = day;
+	}
+
+	public boolean setDayFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setDay(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getDayAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.day);
 	}
 
 	public String getDescription() {
@@ -128,12 +175,42 @@ public class Record extends Model {
 		this.createdAt = createdAt;
 	}
 
+	public boolean setCreatedAtFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setCreatedAt(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getCreatedAtAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.createdAt);
+	}
+
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public boolean setUpdatedAtFromString(String date, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		try {
+			this.setUpdatedAt(dateFormat.parse(date));
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public String getUpdatedAtAsString(String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		return dateFormat.format(this.updatedAt);
 	}
 
 	@Override

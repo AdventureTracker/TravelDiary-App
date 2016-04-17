@@ -11,6 +11,6 @@ public abstract class DatabaseConstants {
 	public static final String SQLITE_DATETIME_TYPE = " DATETIME";
 	public static final String SQLITE_FLOAT_TYPE = " FLOAT";
 
-	public static final String COMMA_SEP = ",";
+	public static final String COMMA_SEP = ", ";
 
 }

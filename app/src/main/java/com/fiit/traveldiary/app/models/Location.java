@@ -9,6 +9,9 @@ public class Location {
 	private float longitude;
 	private int altitude;
 
+	public Location() {
+	}
+
 	public Location(float latitude, float longitude, int altitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
@@ -39,7 +42,7 @@ public class Location {
 		this.altitude = altitude;
 	}
 
-	public String __toString() {
+	public String toString() {
 		return null;
 	}
 
