@@ -4,13 +4,21 @@ package com.fiit.traveldiary.app.activities;
  * Created by Barbora on 14.4.2016.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import com.fiit.traveldiary.app.R;
+import com.fiit.traveldiary.app.api.*;
+import com.securepreferences.SecurePreferences;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class LoginActivity extends Activity implements View.OnClickListener {
+import java.util.List;
+
+public class LoginActivity extends Activity implements View.OnClickListener, AsyncTaskReceiver {
 
 
 	@Override
@@ -40,6 +48,56 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
 	private void onLoginButtonClick(View view) {
 
+		//FIXME: dojebany server, nemam ako testovat
+
+//		JSONObject jsonObject = new JSONObject();
+//
+//		try {
+//			jsonObject.put("email", this.getUsername().getText().toString());
+//			jsonObject.put("password", this.getPassword().getText().toString());
+//		} catch (JSONException e) {
+//			e.printStackTrace();
+//			Log.w("LoginActivity", "Auth JSON error");
+//			return;
+//		}
+//
+//		Log.w("LoginActivity", jsonObject.toString());
+//
+//		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+//		networkSyncOperations.setDelegate(this);
+//		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.POST_METHOD, "token", jsonObject));
+
+		if (this.getUsername().getText().toString().equals("jakub.dubec@gmail.com") && this.getPassword().getText().toString().equals("Andromeda246"))
+			this.openTripsActivity();
+
 	}
 
+	@Override
+	public void processFinish(List<ApiResponse> apiResponses) {
+
+		ApiResponse response = apiResponses.get(0);
+
+		if (response.getStatus() == 201) {
+			SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
+			try {
+				preferences.edit().putString("USER_TOKEN", response.getContent().getString("token"));
+			} catch (JSONException e) {
+				e.printStackTrace();
+				Log.w("LoginActivity", "Invalid response!");
+				return;
+			}
+
+			this.openTripsActivity();
+
+		}
+		else {
+			Log.w("LoginActivity", response.getContent().toString());
+		}
+	}
+
+	private void openTripsActivity() {
+		Intent intent = new Intent(this, TripListActivity.class);
+		startActivity(intent);
+		finish();
+	}
 }

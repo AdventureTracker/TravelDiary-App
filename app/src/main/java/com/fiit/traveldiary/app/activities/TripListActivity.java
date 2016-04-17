@@ -14,41 +14,47 @@ import android.widget.ListView;
 import com.fiit.traveldiary.app.R;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import com.fiit.traveldiary.app.api.ApiResponse;
+
+import java.util.List;
 
 
-public class TripListActivity {
+public class TripListActivity extends AppCompatActivity implements View.OnClickListener, AsyncTaskReceiver {
 
-    public class TripsListActivity extends AppCompatActivity implements View.OnClickListener {
+	private FrameLayout frameLayout;
+	private ListView listView;
+	Toolbar toolbar;
 
-        private FrameLayout frameLayout;
-        private ListView listView;
-        Toolbar toolbar;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.trips_list);
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.trips_list);
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-            toolbar = (Toolbar) findViewById(R.id.toolbar);
+		// toolbar.setTitle(R.string.toolbarTitle);
+		setSupportActionBar(toolbar);
 
-            // toolbar.setTitle(R.string.toolbarTitle);
-            setSupportActionBar(toolbar);
+		toolbar.setNavigationIcon(R.drawable.sipka_back);
 
-            toolbar.setNavigationIcon(R.drawable.sipka_back);
+		frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
+		findViewById(R.id.circleButton).setOnClickListener(this);
+		listView = (ListView) findViewById(R.id.listView);
 
-            frameLayout = (FrameLayout) findViewById(R.id.frameLayout);
-            findViewById(R.id.circleButton).setOnClickListener(this);
-            listView = (ListView) findViewById(R.id.listView);
-        }
 
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.circleButton:
-                    //TODO implement
-                    break;
-            }
-        }
-    }
+	}
 
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.circleButton:
+				//TODO implement
+				break;
+		}
+	}
+
+	@Override
+	public void processFinish(List<ApiResponse> apiResponses) {
+
+	}
 }
