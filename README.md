@@ -37,6 +37,7 @@ Aplikacia sluzi na vytvaranie cestovatelskych dennikov, ktore sa naslednej posie
 ## Technical stuff
 
 Aplikacia je pisana pre platformu Android. Lokalna databaza je realizovana pomocou SQLite databazi (napisali sme vlastne ORM mapovanie nech je sranda). Aplikacia umoznuje komunikovat s REST alebo WebSocket API serverom. Snazili sme sa o absolutnu abstrakciu od pouziteho protokolu. Spravanie pripojenia je preto definovane v dvoch objektoch:
+
 1. com.fiit.traveldiary.app.api.provider.RestProvider - definuje spravanie pre pripojenie pomocou HTTP REST navrhoveho vzoru
 2. com.fiit.traveldiary.app.api.provider.WebSocketProvider - definuje spravanie pre pripojenie pomocou WebSocket
 
