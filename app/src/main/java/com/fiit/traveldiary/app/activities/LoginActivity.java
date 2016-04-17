@@ -8,33 +8,38 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Button;
 import com.fiit.traveldiary.app.R;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.login);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login);
 
-        findViewById(R.id.logInButton).setOnClickListener(this);
-    }
+		findViewById(R.id.logInButton).setOnClickListener(this);
+	}
 
-    private EditText getUsername(){
-        return (EditText) findViewById(R.id.username);
-    }
+	private EditText getUsername(){
+		return (EditText) findViewById(R.id.username);
+	}
 
-    private EditText getPassword(){
-        return (EditText) findViewById(R.id.password);
-    }
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.logInButton:
-                //TODO implement
-                break;
-        }
-    }
+	private EditText getPassword(){
+		return (EditText) findViewById(R.id.password);
+	}
+
+	@Override
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.logInButton:
+				onLoginButtonClick(view);
+				break;
+		}
+	}
+
+	private void onLoginButtonClick(View view) {
+
+	}
+
 }

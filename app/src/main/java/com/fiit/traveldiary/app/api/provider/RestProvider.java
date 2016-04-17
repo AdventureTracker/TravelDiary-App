@@ -16,6 +16,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jdubec on 13/04/16.
@@ -37,7 +39,12 @@ public class RestProvider implements ApiProvider {
 		HostnameVerifier hostnameVerifier = new HostnameVerifier() {
 			@Override
 			public boolean verify(String hostname, SSLSession session) {
-				return hostname.equals("api.jakubove.zbytocnosti.sk");
+
+				List<String> allowedHosts = new ArrayList<String>();
+				allowedHosts.add("api.jakubove.zbytocnosti.sk");
+				allowedHosts.add("api.traveldiary.dev");
+
+				return allowedHosts.contains(hostname);
 			}
 		};
 
@@ -58,9 +65,11 @@ public class RestProvider implements ApiProvider {
 			// Preparing headers
 			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setRequestProperty(DEVICE_HEADER, Settings.Secure.getString(request.getContentResolver(), Settings.Secure.ANDROID_ID));
-//
+
 //			if (App.getInstance().getPreferences().getString("USER_TOKEN", null) != null)
 //				connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));
+
+			connection.setRequestProperty(TOKEN_HEADER, "cc88f8f3-6b22-4333-ab5b-e314c2660ab3");
 
 			connection.setDoInput(true);
 			connection.setUseCaches(false);

@@ -2,6 +2,7 @@ package com.fiit.traveldiary.app.api;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import com.fiit.traveldiary.app.activities.AsyncTaskReceiver;
 import com.fiit.traveldiary.app.api.provider.RestProvider;
 import com.fiit.traveldiary.app.exceptions.InternalException;
 
@@ -9,6 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<ApiResponse>> {
+
+	private AsyncTaskReceiver delegate = null;
+
+	public void setDelegate(AsyncTaskReceiver delegate) {
+		this.delegate = delegate;
+	}
 
 	@Override
 	protected List<ApiResponse> doInBackground(ApiRequest... params) {
@@ -33,17 +40,20 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 	}
 
 	protected void onPostExecute(List<ApiResponse> responses) {
-		for (ApiResponse response : responses) {
-			if (response != null)
-				Log.w("API Response", response.getContent().toString());
-			else
-				Log.w("API Response", "Invalid API Call");
 
-			if (response.getOriginalRequest().getMethod() == ApiMethod.GET_METHOD) {
-				Log.w("API Response", response.getOriginalRequest().getUri());
-				// TODO: create classes for DB persist
-			}
+		if (this.delegate != null)
+			this.delegate.processFinish(responses);
 
-		}
+//		for (ApiResponse response : responses) {
+//			if (response != null)
+//				Log.w("API Response", response.getContent().toString());
+//			else
+//				Log.w("API Response", "Invalid API Call");
+//
+//			if (response.getOriginalRequest().getMethod() == ApiMethod.GET_METHOD) {
+//				Log.w("API Response", response.getOriginalRequest().getUri());
+//				// TODO: create classes for DB persist
+//			}
+//		}
 	}
 }

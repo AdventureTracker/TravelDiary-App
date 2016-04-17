@@ -1,5 +1,6 @@
 package com.fiit.traveldiary.app.activities;
 
+import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,37 +11,52 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.fiit.traveldiary.app.R;
 import com.fiit.traveldiary.app.api.*;
+import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.models.RecordType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity {
+/**
+ * Tato aktivita bude sluzit na stiahnute ENUMs a sync, overenie prihlasenia a podobne, zatial len force login
+ */
+public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.record_data);
+//		setContentView(R.layout.record_data);
 
 		String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
 		Log.w("UUID", android_id);
 
-		List<RecordType> recordTypeList = new ArrayList<RecordType>();
+//		List<RecordType> recordTypeList = new ArrayList<RecordType>();
+//
+//		recordTypeList.add(new RecordType(46, "HITCHHIKING_START", "Hitchhiking start destination"));
+//		recordTypeList.add(new RecordType(42, "CAMPING", "Camping stuff"));
+//
+//		Spinner spinner = (Spinner) findViewById(R.id.recordType);
+//
+//		ArrayAdapter<RecordType> recordTypeArrayAdapter = new ArrayAdapter<RecordType>(this, android.R.layout.simple_spinner_item, recordTypeList);
+//		recordTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//		spinner.setAdapter(recordTypeArrayAdapter);
 
-		recordTypeList.add(new RecordType(46, "HITCHHIKING_START", "Hitchhiking start destination"));
-		recordTypeList.add(new RecordType(42, "CAMPING", "Camping stuff"));
+//		NetworkSyncOperations networkOperations = new NetworkSyncOperations();
+//		networkOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"));
 
-		Spinner spinner = (Spinner) findViewById(R.id.recordType);
+		// TODO: toto odkomentuj az ked si budes isty ze mas spravnu databazu
+//		SQLiteProvider.getInstance(this.getBaseContext());
 
-		ArrayAdapter<RecordType> recordTypeArrayAdapter = new ArrayAdapter<RecordType>(this, android.R.layout.simple_spinner_item, recordTypeList);
-		recordTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		spinner.setAdapter(recordTypeArrayAdapter);
 
-		NetworkSyncOperations networkOperations = new NetworkSyncOperations();
-		networkOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"), new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"), new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"));
+//		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+//		networkSyncOperations.setDelegate(this);
+//		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "trips"));
+
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
 
 	}
 
@@ -66,4 +82,13 @@ public class MainActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+
+	@Override
+	public void processFinish(List<ApiResponse> apiResponses) {
+
+		for (ApiResponse response : apiResponses) {
+			Log.w("MainActivity", response.getContent().toString());
+		}
+
+	}
 }

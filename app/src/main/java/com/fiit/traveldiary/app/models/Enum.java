@@ -58,7 +58,13 @@ public class Enum extends Model {
 
 	@Override
 	public boolean parseJSON(JSONObject jsonObject) {
-		return false;
+		try {
+			this.setDescription(jsonObject.getString("description"));
+			this.setCode(jsonObject.getString("code"));
+		} catch (JSONException e) {
+			return false;
+		}
+		return true;
 	}
 
 	public String toString() {

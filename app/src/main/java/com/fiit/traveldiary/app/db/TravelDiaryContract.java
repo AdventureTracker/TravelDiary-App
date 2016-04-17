@@ -4,6 +4,8 @@ import android.provider.BaseColumns;
 import com.fiit.traveldiary.app.db.provider.DatabaseConstants;
 import com.fiit.traveldiary.app.models.RecordType;
 
+import java.util.UUID;
+
 /**
  * Created by Jakub Dubec on 16/04/16.
  */
@@ -185,6 +187,24 @@ public final class TravelDiaryContract {
 						COLUMN_ID_USER + DatabaseConstants.SQLITE_INTEGER_TYPE + DatabaseConstants.COMMA_SEP +
 						"FOREIGN KEY(" + COLUMN_ID_TRIP + ") REFERENCES " + TripEntry.TABLE_NAME + "(" + TripEntry.COLUMN_ID_TRIP + ")" +
 						"FOREIGN KEY(" + COLUMN_ID_USER + ") REFERENCES " + UserEntry.TABLE_NAME + "(" + UserEntry.COLUMN_ID_USER + ")" +
+						");";
+		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+	}
+
+	public static abstract class ActivityLogEntry implements BaseColumns {
+		public static final String TABLE_NAME = "activity_log";
+
+		public static final String COLUMN_ID_ACTIVITY = "id_activity";
+		public static final String COLUMN_ENTITY = "act_entity";
+		public static final String COLUMN_UUID = "act_uuid";
+		public static final String COLUMN_CREATED_AT = "act_createdAt";
+
+		public static final String CREATE_SQL =
+				"CREATE TABLE " + TABLE_NAME + " (" +
+						COLUMN_ID_ACTIVITY + DatabaseConstants.SQLITE_INTEGER_TYPE + " PRIMARY KEY" + DatabaseConstants.COMMA_SEP +
+						COLUMN_ENTITY + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
+						COLUMN_UUID + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
+						COLUMN_CREATED_AT + DatabaseConstants.SQLITE_TIMESTAMP_TYPE + DatabaseConstants.COMMA_SEP +
 						");";
 		public static final String REMOVE_SQL = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	}

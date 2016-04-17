@@ -85,8 +85,8 @@ public abstract class RecordHelper {
 				record.setIdTrip(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_TRIP)));
 				record.setDayFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_DAY)), "yyyy-MM-dd'T'HH:mm:ssZ");
 				record.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UUID)));
-				record.getLocation().setLatitude(c.getFloat(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)));
-				record.getLocation().setLongitude(c.getFloat(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)));
+				record.getLocation().setLatitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)));
+				record.getLocation().setLongitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)));
 				record.getLocation().setAltitude(c.getInt(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE)));
 				record.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 				record.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
@@ -121,8 +121,8 @@ public abstract class RecordHelper {
 		record.setIdTrip(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_TRIP)));
 		record.setDayFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_DAY)), "yyyy-MM-dd'T'HH:mm:ssZ");
 		record.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UUID)));
-		record.getLocation().setLatitude(c.getFloat(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)));
-		record.getLocation().setLongitude(c.getFloat(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)));
+		record.getLocation().setLatitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)));
+		record.getLocation().setLongitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)));
 		record.getLocation().setAltitude(c.getInt(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE)));
 		record.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 		record.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
