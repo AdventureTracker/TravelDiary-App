@@ -7,14 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import com.fiit.traveldiary.app.R;
 import com.fiit.traveldiary.app.api.*;
-import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
-import com.fiit.traveldiary.app.models.RecordType;
-
-import java.util.ArrayList;
+import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
+import com.securepreferences.SecurePreferences;
 import java.util.List;
 
 /**
@@ -49,14 +45,30 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 		// TODO: toto odkomentuj az ked si budes isty ze mas spravnu databazu
 //		SQLiteProvider.getInstance(this.getBaseContext());
 
-
-
 //		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 //		networkSyncOperations.setDelegate(this);
-//		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "trips"));
+//		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}));
 
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivity(intent);
+		if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
+			SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
+			if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
+				Intent intent = new Intent(this, LoginActivity.class);
+				startActivity(intent);
+			}
+			else {
+				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+				networkSyncOperations.setDelegate(this);
+				networkSyncOperations.execute(
+						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}),
+						new ApiRequest(this.getBaseContext(), RequestType.TRIP_LIST, new String[]{})
+				);
+				// Tu sprav sync
+//				Log.w("UserToken", preferences.getString("USER_TOKEN", "NOT_LOGGED_IN"));
+			}
+		}
+		else {
+			Log.w("NetworkAct", "Si offline kokot!");
+		}
 
 	}
 
@@ -87,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 	public void processFinish(List<ApiResponse> apiResponses) {
 
 		for (ApiResponse response : apiResponses) {
-			Log.w("MainActivity", response.getContent().toString());
+			Log.w("ApiResponses", response.getContent().toString());
 		}
 
 	}

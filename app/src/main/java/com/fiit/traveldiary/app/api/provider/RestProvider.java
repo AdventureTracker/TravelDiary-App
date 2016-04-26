@@ -4,20 +4,18 @@ import android.provider.Settings;
 import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.exceptions.InternalException;
+import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jdubec on 13/04/16.
@@ -36,18 +34,6 @@ public class RestProvider implements ApiProvider {
 		URL url;
 		HttpsURLConnection connection;
 
-		HostnameVerifier hostnameVerifier = new HostnameVerifier() {
-			@Override
-			public boolean verify(String hostname, SSLSession session) {
-
-				List<String> allowedHosts = new ArrayList<String>();
-				allowedHosts.add("api.jakubove.zbytocnosti.sk");
-				allowedHosts.add("api.traveldiary.dev");
-
-				return allowedHosts.contains(hostname);
-			}
-		};
-
 		try {
 
 			// Creating URL object based on ApiRequest
@@ -57,7 +43,7 @@ public class RestProvider implements ApiProvider {
 			connection = (HttpsURLConnection) url.openConnection();
 
 			// Hostname verifer
-			connection.setHostnameVerifier(hostnameVerifier);
+			connection.setHostnameVerifier(NetworkActivityManager.createHostnameVerifier());
 
 			// Setting method
 			connection.setRequestMethod(request.getMethod().toString());
@@ -107,7 +93,14 @@ public class RestProvider implements ApiProvider {
 			}
 
 			reader.close();
-			responseObject = new JSONObject(stringBuilder.toString());
+
+			if (request.getRequestType().isArrayExpected()) {
+				responseObject = new JSONObject();
+				responseObject.put("records", new JSONArray(stringBuilder.toString()));
+			}
+			else {
+				responseObject = new JSONObject(stringBuilder.toString());
+			}
 
 		} catch (IOException e) {
 			throw new InternalException("Some kind of shitty IO exception", e);

@@ -50,25 +50,25 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 
 		//FIXME: dojebany server, nemam ako testovat
 
-//		JSONObject jsonObject = new JSONObject();
-//
-//		try {
-//			jsonObject.put("email", this.getUsername().getText().toString());
-//			jsonObject.put("password", this.getPassword().getText().toString());
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//			Log.w("LoginActivity", "Auth JSON error");
-//			return;
-//		}
-//
-//		Log.w("LoginActivity", jsonObject.toString());
-//
-//		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
-//		networkSyncOperations.setDelegate(this);
-//		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.POST_METHOD, "token", jsonObject));
+		JSONObject jsonObject = new JSONObject();
 
-		if (this.getUsername().getText().toString().equals("jakub.dubec@gmail.com") && this.getPassword().getText().toString().equals("Andromeda246"))
-			this.openTripsActivity();
+		try {
+			jsonObject.put("email", this.getUsername().getText().toString());
+			jsonObject.put("password", this.getPassword().getText().toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+			Log.w("LoginActivity", "Auth JSON error");
+			return;
+		}
+
+		Log.w("LoginActivity", jsonObject.toString());
+
+		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+		networkSyncOperations.setDelegate(this);
+		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), RequestType.LOGIN, new String[]{}, jsonObject));
+
+//		if (this.getUsername().getText().toString().equals("jakub.dubec@gmail.com") && this.getPassword().getText().toString().equals("Andromeda246"))
+//			this.openTripsActivity();
 
 	}
 
@@ -77,10 +77,14 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 
 		ApiResponse response = apiResponses.get(0);
 
+		Log.w("LoginActivity", response.getContent().toString());
+
 		if (response.getStatus() == 201) {
 			SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
 			try {
-				preferences.edit().putString("USER_TOKEN", response.getContent().getString("token"));
+				SecurePreferences.Editor editor = preferences.edit();
+				editor.putString("USER_TOKEN", response.getContent().getString("token"));
+				editor.commit();
 			} catch (JSONException e) {
 				e.printStackTrace();
 				Log.w("LoginActivity", "Invalid response!");
@@ -89,9 +93,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 
 			this.openTripsActivity();
 
-		}
-		else {
-			Log.w("LoginActivity", response.getContent().toString());
 		}
 	}
 
