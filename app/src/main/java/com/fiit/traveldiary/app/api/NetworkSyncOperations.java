@@ -41,10 +41,6 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 	}
 
 	protected void onPostExecute(List<ApiResponse> responses) {
-
-		if (this.delegate != null)
-			this.delegate.processFinish(responses);
-
 		for (ApiResponse response : responses) {
 			if (response == null) {
 				Log.w("API Response", "Invalid API Call");
@@ -62,5 +58,8 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 					DataPersister.persistRecord(response.getContent());
 			}
 		}
+
+		if (this.delegate != null)
+			this.delegate.processFinish(responses);
 	}
 }

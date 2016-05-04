@@ -79,28 +79,31 @@ public abstract class TripHelper {
 		List<Trip> trips = new ArrayList<Trip>();
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
-		String sql = String.format("SELECT * FROM %s %s LIMIT 1;", TravelDiaryContract.TripEntry.TABLE_NAME, filter);
+		String sql = String.format("SELECT * FROM %s %s;", TravelDiaryContract.TripEntry.TABLE_NAME, filter);
 		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
 		if (c.moveToFirst()) {
-			Trip trip = new Trip();
 
-			trip.setId(c.getLong(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ID_TRIP)));
-			trip.setIdPrivacy(c.getLong(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ID_PRIVACY)));
-			trip.setIdStatus(c.getLong(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ID_STATUS)));
-			trip.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_UUID)));
-			trip.setName(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_NAME)));
-			trip.setDescription(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_DESCRIPTION)));
-			trip.setDestination(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_DESTINATION)));
-			trip.setStartDateFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_START_DATE)), "yyyy-MM-dd'T'HH:mm:ssZ");
-			trip.setEstimatedArrivalFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ESTIMATED_ARRIVAL_DATE)), "yyyy-MM-dd'T'HH:mm:ssZ");
-			trip.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
-			trip.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
-			trip.setSyncStatus(SyncStatus.parseString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_SYNC))));
+			do {
+				Trip trip = new Trip();
 
-			trips.add(trip);
+				trip.setId(c.getLong(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ID_TRIP)));
+				trip.setIdPrivacy(c.getLong(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ID_PRIVACY)));
+				trip.setIdStatus(c.getLong(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ID_STATUS)));
+				trip.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_UUID)));
+				trip.setName(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_NAME)));
+				trip.setDescription(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_DESCRIPTION)));
+				trip.setDestination(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_DESTINATION)));
+				trip.setStartDateFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_START_DATE)), "yyyy-MM-dd'T'HH:mm:ssZ");
+				trip.setEstimatedArrivalFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ESTIMATED_ARRIVAL_DATE)), "yyyy-MM-dd'T'HH:mm:ssZ");
+				trip.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
+				trip.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
+				trip.setSyncStatus(SyncStatus.parseString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_SYNC))));
+
+				trips.add(trip);
+			} while (c.moveToNext());
 		}
 
 		c.close();

@@ -1,18 +1,19 @@
 package com.fiit.traveldiary.app.activities;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.fiit.traveldiary.app.R;
-import com.fiit.traveldiary.app.api.*;
+import com.fiit.traveldiary.app.api.ApiRequest;
+import com.fiit.traveldiary.app.api.ApiResponse;
+import com.fiit.traveldiary.app.api.NetworkSyncOperations;
+import com.fiit.traveldiary.app.api.RequestType;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
 import com.securepreferences.SecurePreferences;
+
 import java.util.List;
 
 /**
@@ -51,10 +52,7 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 				networkSyncOperations.setDelegate(this);
 				networkSyncOperations.execute(
-						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}),
-						new ApiRequest(this.getBaseContext(), RequestType.TRIP_LIST, new String[]{}),
-						new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612"}),
-						new ApiRequest(this.getBaseContext(), RequestType.TRIP_RECORD, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612", "bf8730b8-5423-48dc-a57c-23ea7bdb809a"})
+						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})
 				);
 				// Tu sprav sync
 			}

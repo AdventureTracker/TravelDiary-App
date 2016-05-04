@@ -1,18 +1,13 @@
 package com.fiit.traveldiary.app.db.helpers;
 
 import android.content.ContentValues;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
 import com.fiit.traveldiary.app.models.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Jakub Dubec on 17/04/16.
