@@ -14,11 +14,15 @@ public class User extends Model {
 	private String email;
 	private String uuid;
 
-	public User() {
-	}
-
 	public User(JSONObject object) throws InvalidInputException, JSONException {
 		super(object);
+	}
+
+	public User(long id, String name, String email, String uuid) {
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.uuid = uuid;
 	}
 
 	public long getId() {
@@ -60,7 +64,15 @@ public class User extends Model {
 
 	@Override
 	public boolean parseJSON(JSONObject jsonObject) {
-		return false;
+		try {
+			this.setUuid(jsonObject.getString("id"));
+			this.setName(jsonObject.getString("name"));
+			this.setEmail(jsonObject.getString("email"));
+		}
+		catch (JSONException e) {
+			return false;
+		}
+		return true;
 	}
 
 	public String toString() {

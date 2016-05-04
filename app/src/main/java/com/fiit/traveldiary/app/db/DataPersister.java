@@ -1,15 +1,9 @@
 package com.fiit.traveldiary.app.db;
 
 import android.util.Log;
-import com.fiit.traveldiary.app.db.helpers.PrivacyHelper;
-import com.fiit.traveldiary.app.db.helpers.RecordTypeHelper;
-import com.fiit.traveldiary.app.db.helpers.StatusHelper;
-import com.fiit.traveldiary.app.db.helpers.TripHelper;
+import com.fiit.traveldiary.app.db.helpers.*;
 import com.fiit.traveldiary.app.exceptions.InvalidInputException;
-import com.fiit.traveldiary.app.models.Privacy;
-import com.fiit.traveldiary.app.models.RecordType;
-import com.fiit.traveldiary.app.models.Status;
-import com.fiit.traveldiary.app.models.Trip;
+import com.fiit.traveldiary.app.models.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,11 +36,20 @@ public abstract class DataPersister {
 			for (int i = 0; i < privacyArray.length(); i++) {
 				PrivacyHelper.save(new Privacy(privacyArray.getJSONObject(i)));
 			}
+
+			// UsersEnum
+			JSONArray userArray = jsonObject.getJSONArray("users");
+			UserHelper.removeAll();
+			for (int i = 0; i < userArray.length(); i++) {
+				UserHelper.save(new User(userArray.getJSONObject(i)));
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return false;
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+			return false;
 		}
-
 
 		return true;
 	}
