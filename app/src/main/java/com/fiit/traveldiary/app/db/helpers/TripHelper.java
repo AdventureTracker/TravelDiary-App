@@ -69,6 +69,8 @@ public abstract class TripHelper {
 	public static boolean remove(Trip model) {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
 
+
+
 		String selection = TravelDiaryContract.TripEntry.COLUMN_ID_TRIP + " LIKE ?";
 		String[] selectionArgs = { String.valueOf(model.getId()) };
 

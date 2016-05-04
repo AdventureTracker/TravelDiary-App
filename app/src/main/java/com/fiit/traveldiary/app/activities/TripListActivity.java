@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -63,14 +65,7 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 			}
 		});
 
-		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				Trip trip = (Trip) parent.getItemAtPosition(position);
-				Log.w("List", trip.getDestination());
-				return true;
-			}
-		});
+		registerForContextMenu(this.listView);
 
 		if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
 			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
@@ -94,6 +89,30 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.context_menu, menu);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+		Trip trip = (Trip) this.listView.getItemAtPosition(info.position);
+
+		switch (item.getItemId()) {
+			case R.id.cnt_menu_edit:
+				this.createTrip(trip.getId());
+				break;
+			case R.id.cnt_menu_remove:
+				this.removeTrip(trip);
+				break;
+		}
+
+		return true;
+	}
+
+	@Override
 	public void processFinish(List<ApiResponse> apiResponses) {
 		this.loadTrips();
 	}
@@ -108,5 +127,22 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 		Intent intent = new Intent(this, TripDataActivity.class);
 		intent.putExtra("idTrip", idTrip);
 		startActivity(intent);
+	}
+
+	private void removeTrip(Trip trip) {
+
+		trip.setSyncStatus(SyncStatus.REMOVED);
+		TripHelper.persist(trip);
+
+		if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
+			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+			networkSyncOperations.setDelegate(this);
+			networkSyncOperations.execute(
+					new ApiRequest(this.getBaseContext(), RequestType.DELETE_TRIP, new String[]{trip.getUuid()}),
+					new ApiRequest(this.getBaseContext(), RequestType.TRIP_LIST, new String[]{})
+			);
+			TripHelper.remove(trip);
+		}
+
 	}
 }
