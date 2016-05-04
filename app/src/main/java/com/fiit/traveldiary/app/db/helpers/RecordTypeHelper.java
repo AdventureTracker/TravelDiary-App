@@ -1,5 +1,6 @@
 package com.fiit.traveldiary.app.db.helpers;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -12,6 +13,21 @@ import com.fiit.traveldiary.app.models.RecordType;
  * Created by Jakub Dubec on 17/04/16.
  */
 public abstract class RecordTypeHelper {
+
+	public static long save(RecordType recordType) {
+
+		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
+
+		ContentValues contentValues = new ContentValues();
+
+		contentValues.put(TravelDiaryContract.RecordTypeEntry.COLUMN_CODE, recordType.getCode());
+		contentValues.put(TravelDiaryContract.RecordTypeEntry.COLUMN_DESCRIPTION, recordType.getDescription());
+
+		recordType.setId(db.insert(TravelDiaryContract.RecordTypeEntry.TABLE_NAME, null, contentValues)); //insert a rovno nasetuj ID
+
+		return recordType.getId();
+
+	}
 
 	public static RecordType get(String code) throws RecordNotFoundException {
 
@@ -57,6 +73,15 @@ public abstract class RecordTypeHelper {
 		c.close();
 
 		return recordType;
+	}
+
+	public static boolean removeAll() {
+		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
+		boolean success = db.delete(TravelDiaryContract.RecordTypeEntry.TABLE_NAME, null, null) != 0;
+
+		//TODO: reset AUTO_INCREMENT, table sqlite_sequence (name:value)
+
+		return success;
 	}
 
 }

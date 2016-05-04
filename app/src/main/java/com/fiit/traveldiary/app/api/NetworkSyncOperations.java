@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.fiit.traveldiary.app.activities.AsyncTaskReceiver;
 import com.fiit.traveldiary.app.api.provider.RestProvider;
+import com.fiit.traveldiary.app.db.DataPersister;
 import com.fiit.traveldiary.app.exceptions.InternalException;
 
 import java.util.ArrayList;
@@ -44,16 +45,20 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 		if (this.delegate != null)
 			this.delegate.processFinish(responses);
 
-//		for (ApiResponse response : responses) {
-//			if (response != null)
-//				Log.w("API Response", response.getContent().toString());
-//			else
-//				Log.w("API Response", "Invalid API Call");
-//
-//			if (response.getOriginalRequest().getMethod() == ApiMethod.GET_METHOD) {
-//				Log.w("API Response", response.getOriginalRequest().getUri());
-//				// TODO: create classes for DB persist
-//			}
-//		}
+		for (ApiResponse response : responses) {
+			if (response == null) {
+				Log.w("API Response", "Invalid API Call");
+				continue;
+			}
+
+			if (response.getOriginalRequest().getRequestType().isPersistRequest()) {
+				if (response.getOriginalRequest().getRequestType().equals(RequestType.ENUMS))
+					DataPersister.persistEnums(response.getContent());
+				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_LIST))
+					DataPersister.persistTrips(response.getContent());
+				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP))
+					DataPersister.persistTrip(response.getContent());
+			}
+		}
 	}
 }

@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import org.json.JSONObject;
+
 /**
  * Created by jdubec on 13/04/16.
  */
@@ -12,5 +14,9 @@ public class Status extends Enum {
 
 	public Status(String code) {
 		super(code);
+	}
+
+	public Status(JSONObject jsonObject) {
+		super(jsonObject);
 	}
 }

@@ -1,5 +1,7 @@
 package com.fiit.traveldiary.app.models;
 
+import org.json.JSONObject;
+
 /**
  * Created by jdubec on 13/04/16.
  */
@@ -10,7 +12,7 @@ public class RecordType extends Enum {
 		super(id, code, description);
 	}
 
-	public RecordType(String code) {
-		super(code);
+	public RecordType(JSONObject jsonObject) {
+		super(jsonObject);
 	}
 }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import com.fiit.traveldiary.app.db.SyncStatus;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
@@ -31,6 +32,7 @@ public abstract class TripHelper {
 		contentValues.put(TravelDiaryContract.TripEntry.COLUMN_ESTIMATED_ARRIVAL_DATE, model.getEstimatedArrivalAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
 		contentValues.put(TravelDiaryContract.TripEntry.COLUMN_UPDATED_AT, model.getUpdatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
 		contentValues.put(TravelDiaryContract.TripEntry.COLUMN_CREATED_AT, model.getCreatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
+		contentValues.put(TravelDiaryContract.TripEntry.COLUMN_SYNC, model.getSyncStatus().toString());
 
 		boolean exists = true;
 
@@ -87,6 +89,7 @@ public abstract class TripHelper {
 			trip.setEstimatedArrivalFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ESTIMATED_ARRIVAL_DATE)), "yyyy-MM-dd'T'HH:mm:ssZ");
 			trip.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
 			trip.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
+			trip.setSyncStatus(SyncStatus.parseString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_SYNC))));
 
 			trips.add(trip);
 		}
@@ -123,6 +126,7 @@ public abstract class TripHelper {
 		trip.setEstimatedArrivalFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_ESTIMATED_ARRIVAL_DATE)), "yyyy-MM-dd'T'HH:mm:ssZ");
 		trip.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
 		trip.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ssZ");
+		trip.setSyncStatus(SyncStatus.parseString(c.getString(c.getColumnIndex(TravelDiaryContract.TripEntry.COLUMN_SYNC))));
 
 		c.close();
 

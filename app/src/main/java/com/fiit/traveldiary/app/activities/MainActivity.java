@@ -1,6 +1,7 @@
 package com.fiit.traveldiary.app.activities;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.fiit.traveldiary.app.R;
 import com.fiit.traveldiary.app.api.*;
+import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
 import com.securepreferences.SecurePreferences;
 import java.util.List;
@@ -43,7 +45,10 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 //		networkOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"));
 
 		// TODO: toto odkomentuj az ked si budes isty ze mas spravnu databazu
-//		SQLiteProvider.getInstance(this.getBaseContext());
+		SQLiteProvider.getInstance(this.getBaseContext());
+
+		Log.w("Database", SQLiteProvider.getInstance().toString());
+		SQLiteProvider.getInstance().getReadableDatabase();
 
 //		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 //		networkSyncOperations.setDelegate(this);
@@ -60,7 +65,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 				networkSyncOperations.setDelegate(this);
 				networkSyncOperations.execute(
 						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}),
-						new ApiRequest(this.getBaseContext(), RequestType.TRIP_LIST, new String[]{})
+						new ApiRequest(this.getBaseContext(), RequestType.TRIP_LIST, new String[]{}),
+						new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612"})
 				);
 				// Tu sprav sync
 //				Log.w("UserToken", preferences.getString("USER_TOKEN", "NOT_LOGGED_IN"));

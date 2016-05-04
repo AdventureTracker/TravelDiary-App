@@ -43,7 +43,6 @@ public class SQLiteProvider extends SQLiteOpenHelper {
 		db.execSQL(TravelDiaryContract.RecordEntry.CREATE_SQL);
 		db.execSQL(TravelDiaryContract.UserHaveTripEntry.CREATE_SQL);
 		db.execSQL(TravelDiaryContract.PhotoEntry.CREATE_SQL);
-		db.execSQL(TravelDiaryContract.ActivityLogEntry.CREATE_SQL);
 	}
 
 	@Override
@@ -56,7 +55,6 @@ public class SQLiteProvider extends SQLiteOpenHelper {
 		db.execSQL(TravelDiaryContract.RecordEntry.REMOVE_SQL);
 		db.execSQL(TravelDiaryContract.UserHaveTripEntry.REMOVE_SQL);
 		db.execSQL(TravelDiaryContract.PhotoEntry.REMOVE_SQL);
-		db.execSQL(TravelDiaryContract.ActivityLogEntry.REMOVE_SQL);
 		onCreate(db);
 	}
 

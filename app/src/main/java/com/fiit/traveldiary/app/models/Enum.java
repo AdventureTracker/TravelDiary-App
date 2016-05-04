@@ -13,6 +13,10 @@ public class Enum extends Model {
 	private String code;
 	private String description;
 
+	public Enum(JSONObject jsonObject) {
+		this.parseJSON(jsonObject);
+	}
+
 	public Enum(long id, String code, String description) {
 		this.id = id;
 		this.code = code;
@@ -20,11 +24,7 @@ public class Enum extends Model {
 	}
 
 	public Enum(String code) {
-		// TODO: Load from database
-	}
 
-	public Enum(JSONObject object) throws InvalidInputException, JSONException {
-		super(object);
 	}
 
 	public long getId() {
@@ -59,9 +59,10 @@ public class Enum extends Model {
 	@Override
 	public boolean parseJSON(JSONObject jsonObject) {
 		try {
-			this.setDescription(jsonObject.getString("description"));
 			this.setCode(jsonObject.getString("code"));
+			this.setDescription(jsonObject.getString("description"));
 		} catch (JSONException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;

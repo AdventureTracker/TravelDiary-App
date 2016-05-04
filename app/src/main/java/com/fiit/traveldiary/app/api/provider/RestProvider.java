@@ -5,6 +5,7 @@ import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.exceptions.InternalException;
 import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
+import com.securepreferences.SecurePreferences;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,10 +53,10 @@ public class RestProvider implements ApiProvider {
 			connection.setRequestProperty("Content-Type", "application/json");
 			connection.setRequestProperty(DEVICE_HEADER, Settings.Secure.getString(request.getContentResolver(), Settings.Secure.ANDROID_ID));
 
-//			if (App.getInstance().getPreferences().getString("USER_TOKEN", null) != null)
-//				connection.setRequestProperty(TOKEN_HEADER, App.getInstance().getPreferences().getString("USER_TOKEN", ""));
+			SecurePreferences preferences = new SecurePreferences(request.getBaseContext());
 
-			connection.setRequestProperty(TOKEN_HEADER, "cc88f8f3-6b22-4333-ab5b-e314c2660ab3");
+			if (preferences.getString("USER_TOKEN", null) != null)
+				connection.setRequestProperty(TOKEN_HEADER, preferences.getString("USER_TOKEN", ""));
 
 			connection.setDoInput(true);
 			connection.setUseCaches(false);

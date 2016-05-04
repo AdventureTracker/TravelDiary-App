@@ -1,6 +1,11 @@
 package com.fiit.traveldiary.app.models;
 
+import android.util.Log;
+import com.fiit.traveldiary.app.db.SyncStatus;
+import com.fiit.traveldiary.app.db.helpers.PrivacyHelper;
+import com.fiit.traveldiary.app.db.helpers.StatusHelper;
 import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,6 +36,7 @@ public class Trip extends Model {
 	private Date estimatedArrival;
 	private Date createdAt;
 	private Date updatedAt;
+	private SyncStatus syncStatus;
 
 	private List<Record> records;
 	private List<User> users;
@@ -58,6 +64,11 @@ public class Trip extends Model {
 
 	public void setIdStatus(long idStatus) {
 		this.idStatus = idStatus;
+		try {
+			this.status = StatusHelper.get(idStatus);
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public long getIdPrivacy() {
@@ -66,6 +77,11 @@ public class Trip extends Model {
 
 	public void setIdPrivacy(long idPrivacy) {
 		this.idPrivacy = idPrivacy;
+		try {
+			this.privacy = PrivacyHelper.get(idPrivacy);
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Status getStatus() {
@@ -73,6 +89,7 @@ public class Trip extends Model {
 	}
 
 	public void setStatus(Status status) {
+		this.idStatus = status.getId();
 		this.status = status;
 	}
 
@@ -81,6 +98,7 @@ public class Trip extends Model {
 	}
 
 	public void setPrivacy(Privacy privacy) {
+		this.idPrivacy = privacy.getId();
 		this.privacy = privacy;
 	}
 
@@ -135,6 +153,9 @@ public class Trip extends Model {
 	}
 
 	public String getStartDateAsString(String format) {
+		if (this.startDate == null)
+			return "";
+
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		return dateFormat.format(this.startDate);
 	}
@@ -158,6 +179,9 @@ public class Trip extends Model {
 	}
 
 	public String getEstimatedArrivalAsString(String format) {
+		if (this.estimatedArrival == null)
+			return "";
+
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		return dateFormat.format(this.estimatedArrival);
 	}
@@ -214,6 +238,9 @@ public class Trip extends Model {
 	}
 
 	public String getCreatedAtAsString(String format) {
+		if (this.createdAt == null)
+			return "";
+
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		return dateFormat.format(this.createdAt);
 	}
@@ -237,8 +264,19 @@ public class Trip extends Model {
 	}
 
 	public String getUpdatedAtAsString(String format) {
+		if (this.updatedAt == null)
+			return "";
+
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		return dateFormat.format(this.updatedAt);
+	}
+
+	public SyncStatus getSyncStatus() {
+		return syncStatus;
+	}
+
+	public void setSyncStatus(SyncStatus syncStatus) {
+		this.syncStatus = syncStatus;
 	}
 
 	@Override
@@ -285,15 +323,21 @@ public class Trip extends Model {
 		this.setUuid(jsonObject.getString("id"));
 		this.setName(jsonObject.getString("name"));
 		this.setDestination(jsonObject.getString("destination"));
-		this.setStatus(new Status(jsonObject.getString("status")));
-		this.setPrivacy(new Privacy(jsonObject.getString("privacy")));
+
+		try {
+			this.setStatus(StatusHelper.get(jsonObject.getString("status")));
+			this.setPrivacy(PrivacyHelper.get(jsonObject.getString("privacy")));
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
 
 		// Not required
 		if (jsonObject.has("description"))
 			this.setDescription(jsonObject.getString("description"));
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US); //Y-m-d
-		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US); // ISO 8601
+		DateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US); // ISO 8601
 		try {
 
 			// DateTime attributes are not required
@@ -311,17 +355,18 @@ public class Trip extends Model {
 				this.setUpdatedAt(dateTimeFormat.parse(jsonObject.getString("updated_at")));
 
 		} catch (ParseException e) {
+			Log.w("DateTimeParser", e.getMessage());
 			throw new InvalidInputException("Unable to parse date time!", e);
 		}
 
 		// Not required
 		if (jsonObject.has("records")) {
 
-			this.records.clear();
+			this.records = new ArrayList<Record>();
 
 			JSONArray recordsArray = jsonObject.getJSONArray("records");
 
-			for (int i = 0; i <= recordsArray.length(); i++) {
+			for (int i = 0; i < recordsArray.length(); i++) {
 				this.addRecord(new Record(recordsArray.getJSONObject(i)));
 			}
 		}
@@ -329,11 +374,11 @@ public class Trip extends Model {
 		// Not required
 		if (jsonObject.has("users")) {
 
-			this.users.clear();
+			this.users = new ArrayList<User>();
 
 			JSONArray usersArray = jsonObject.getJSONArray("users");
 
-			for (int i = 0; i <= usersArray.length(); i++) {
+			for (int i = 0; i < usersArray.length(); i++) {
 				this.addUser(new User(usersArray.getJSONObject(i)));
 			}
 		}

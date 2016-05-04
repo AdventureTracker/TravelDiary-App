@@ -89,4 +89,19 @@ public enum RequestType {
 				return false;
 		}
 	}
+
+	public boolean isPersistRequest() {
+
+		switch (this) {
+			case TRIP:
+			case TRIP_LIST:
+			case TRIP_RECORD:
+			case TRIP_RECORD_LIST:
+			case ENUMS:
+				return true;
+			default:
+				return false;
+		}
+
+	}
 }

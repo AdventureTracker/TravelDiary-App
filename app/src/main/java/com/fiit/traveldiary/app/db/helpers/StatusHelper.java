@@ -1,5 +1,6 @@
 package com.fiit.traveldiary.app.db.helpers;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -12,6 +13,21 @@ import com.fiit.traveldiary.app.models.Status;
  * Created by Jakub Dubec on 17/04/16.
  */
 public abstract class StatusHelper {
+
+	public static long save(Status status) {
+
+		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
+
+		ContentValues contentValues = new ContentValues();
+
+		contentValues.put(TravelDiaryContract.StatusEntry.COLUMN_CODE, status.getCode());
+		contentValues.put(TravelDiaryContract.StatusEntry.COLUMN_DESCRIPTION, status.getDescription());
+
+		status.setId(db.insert(TravelDiaryContract.StatusEntry.TABLE_NAME, null, contentValues)); //insert a rovno nasetuj ID
+
+		return status.getId();
+
+	}
 
 	public static Status get(String code) throws RecordNotFoundException {
 
@@ -30,6 +46,8 @@ public abstract class StatusHelper {
 				c.getString(c.getColumnIndex(TravelDiaryContract.StatusEntry.COLUMN_CODE)),
 				c.getString(c.getColumnIndex(TravelDiaryContract.StatusEntry.COLUMN_DESCRIPTION))
 		);
+
+		Log.w("Status", String.valueOf(status.getId()));
 
 		c.close();
 
@@ -57,6 +75,11 @@ public abstract class StatusHelper {
 		c.close();
 
 		return status;
+	}
+
+	public static boolean removeAll() {
+		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
+		return db.delete(TravelDiaryContract.StatusEntry.TABLE_NAME, null, null) != 0;
 	}
 
 }
