@@ -77,6 +77,11 @@ public class Record extends Model {
 
 	public void setIdRecordType(long idRecordType) {
 		this.idRecordType = idRecordType;
+		try {
+			this.recordType = RecordTypeHelper.get(idRecordType);
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public long getIdUser() {
@@ -102,6 +107,7 @@ public class Record extends Model {
 
 	public void setRecordType(RecordType recordType) {
 		this.recordType = recordType;
+		this.idRecordType = recordType.getId();
 	}
 
 	public User getUser() {

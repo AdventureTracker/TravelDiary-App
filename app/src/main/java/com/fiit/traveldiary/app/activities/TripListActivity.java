@@ -61,7 +61,8 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Trip trip = (Trip) parent.getItemAtPosition(position);
-				createTrip(trip.getId());
+
+				openTrip(trip.getId());
 			}
 		});
 
@@ -121,6 +122,12 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 		ArrayList<Trip> trips = (ArrayList<Trip>) TripHelper.getAll(String.format("WHERE %s != '%s'", TravelDiaryContract.TripEntry.COLUMN_SYNC, SyncStatus.REMOVED));
 		TripAdapter adapter = new TripAdapter(this, trips);
 		listView.setAdapter(adapter);
+	}
+
+	private void openTrip(long idTrip) {
+		Intent intent = new Intent(this, RecordListActivity.class);
+		intent.putExtra("idTrip", idTrip);
+		startActivity(intent);
 	}
 
 	private void createTrip(long idTrip) {

@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"/>
-    <!-- android:titleTextColor="#000000"/> -->
-    <EditText
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/date" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp" android:text="Date"/>
-    <EditText
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/description" android:layout_below="@+id/date" android:layout_alignLeft="@+id/date"
-            android:layout_alignStart="@+id/date" android:text="Description"/>
-    <Button
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:text="Select Photo"
-            android:id="@+id/selectPhoto" android:layout_centerVertical="true"
-            android:layout_alignLeft="@+id/description" android:layout_alignStart="@+id/description"
-            android:background="#4fbef1"/>
-    <Spinner
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:id="@+id/recordType" android:layout_below="@+id/description"
-            android:layout_alignStart="@+id/description"/>
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+	<android.support.v7.widget.Toolbar
+		android:id="@+id/toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="58dp"
+		android:background="?attr/colorPrimary"
+		android:minHeight="?attr/actionBarSize"/>
+
+	<!-- android:titleTextColor="#000000"/> -->
+	<EditText
+		android:layout_width="300dp"
+		android:layout_height="60dp"
+		android:inputType="date"
+		android:ems="10"
+		android:id="@+id/date"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="50dp"
+		android:hint="@string/DayOfTrip"/>
+	<EditText
+		android:layout_width="300dp"
+		android:layout_height="60dp"
+		android:inputType="textMultiLine"
+		android:ems="10"
+		android:id="@+id/description"
+		android:layout_below="@+id/date"
+		android:layout_alignStart="@+id/date"
+		android:hint="@string/Description"/>
+	<Button
+		android:layout_width="300dp"
+		android:layout_height="60dp"
+		android:text="@string/SelectPhoto"
+		android:id="@+id/selectPhoto"
+		android:layout_centerVertical="true"
+		android:layout_alignStart="@+id/description"
+		android:background="#4fbef1"/>
+	<Spinner
+		android:layout_width="300dp"
+		android:layout_height="60dp"
+		android:id="@+id/recordType" android:layout_below="@+id/description"
+		android:layout_alignStart="@+id/description"/>
 
 </RelativeLayout>

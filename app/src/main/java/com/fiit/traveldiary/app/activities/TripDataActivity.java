@@ -77,7 +77,8 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 			}
 		}
 
-		if (this.trip.getUuid() != null) {
+
+		if (this.trip.getUuid() != null && NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
 			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 			networkSyncOperations.setDelegate(this);
 			networkSyncOperations.execute(

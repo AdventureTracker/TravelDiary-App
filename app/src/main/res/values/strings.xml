@@ -14,4 +14,9 @@
     <string name="LogIn">Log In</string>
     <string name="Edit">Edit</string>
     <string name="Remove">Remove</string>
+    <string name="Status">Status</string>
+    <string name="DayOfTrip">Day of trip</string>
+    <string name="RecordType">Record Type</string>
+    <string name="SelectPhoto">Select Photo</string>
+    <string name="TripImage">Trip image</string>
 </resources>

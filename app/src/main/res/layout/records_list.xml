@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"/>
-    <!-- android:titleTextColor="#000000"/> -->
-    <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:id="@+id/imageView" android:layout_centerHorizontal="true"
-            android:layout_alignTop="@+id/frameLayout"/>
-    <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:text="Add text as destination and started at"
-            android:id="@+id/textView" android:layout_below="@+id/imageView" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:minLines="2"/>
-    <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dayList" android:layout_below="@+id/textView" android:layout_centerHorizontal="true"/>
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/frameLayout" android:layout_below="@+id/toolbar">
+	<android.support.v7.widget.Toolbar
+			android:id="@+id/toolbar"
+			android:layout_width="match_parent"
+			android:layout_height="58dp"
+			android:background="?attr/colorPrimary"
+			android:minHeight="?attr/actionBarSize"/>
+	<!-- android:titleTextColor="#000000"/> -->
+	<ImageView
+		android:layout_width="fill_parent"
+		android:layout_height="200dp"
+		android:id="@+id/imageView"
+		android:layout_centerHorizontal="true"
+		android:layout_alignTop="@+id/frameLayout"
+		android:contentDescription="@string/TripImage"
+		android:src="@drawable/kittens"
+		android:scaleType="fitCenter"
+		/>
 
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="100dp"
+		android:text="Add text as destination and started at"
+		android:id="@+id/textView" android:layout_below="@+id/imageView"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentStart="true" android:minLines="2"/>
 
-        <ImageButton
-                android:layout_margin="15dp"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:src="@drawable/sign"
-                android:background="@drawable/circle"
-                android:id="@+id/circleButton"
-                android:layout_gravity="right|bottom" />
+	<ListView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/dayList" android:layout_below="@+id/textView" android:layout_centerHorizontal="true"/>
 
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentRight="true"
+		android:id="@+id/frameLayout" android:layout_below="@+id/toolbar">
 
-    </FrameLayout>
+		<ImageButton
+			android:layout_margin="15dp"
+			android:layout_width="70dp"
+			android:layout_height="70dp"
+			android:src="@drawable/sign"
+			android:background="@drawable/circle"
+			android:id="@+id/circleButton"
+			android:layout_gravity="end|bottom" />
+	</FrameLayout>
 </RelativeLayout>

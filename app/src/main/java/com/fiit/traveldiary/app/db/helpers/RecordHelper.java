@@ -86,7 +86,7 @@ public abstract class RecordHelper {
 		List<Record> records = new ArrayList<Record>();
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
-		String sql = String.format("SELECT * FROM %s %s LIMIT 1;", TravelDiaryContract.PhotoEntry.TABLE_NAME, filter);
+		String sql = String.format("SELECT * FROM %s %s;", TravelDiaryContract.RecordEntry.TABLE_NAME, filter);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -99,9 +99,13 @@ public abstract class RecordHelper {
 				record.setIdTrip(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_TRIP)));
 				record.setDayFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_DAY)), "yyyy-MM-dd'T'HH:mm:ssZ");
 				record.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UUID)));
-				record.getLocation().setLatitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)));
-				record.getLocation().setLongitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)));
-				record.getLocation().setAltitude(c.getInt(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE)));
+
+				record.setLocation(new Location(
+						c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)),
+						c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)),
+						c.getInt(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE))
+				));
+
 				record.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 				record.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
