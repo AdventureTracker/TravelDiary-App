@@ -8,6 +8,7 @@ import android.util.Log;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
+import com.fiit.traveldiary.app.models.Location;
 import com.fiit.traveldiary.app.models.Record;
 
 import java.util.ArrayList;
@@ -20,6 +21,17 @@ public abstract class RecordHelper {
 
 	public static long persist(Record model) {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
+
+		boolean exists = true;
+
+		try {
+			Record originalModel = getOne(String.format("WHERE %s = '%s'", TravelDiaryContract.RecordEntry.COLUMN_UUID, model.getUuid()));
+			model.setId(originalModel.getId());
+			model.setIdTrip(originalModel.getIdTrip());
+		}
+		catch (RecordNotFoundException e) {
+			exists = false;
+		}
 
 		ContentValues contentValues = new ContentValues();
 
@@ -46,15 +58,6 @@ public abstract class RecordHelper {
 			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT, model.getCreatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
 
 		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_SYNC, model.getSyncStatus().toString());
-
-		boolean exists = true;
-
-		try {
-			model.setId(getOne(String.format("WHERE %s = '%s'", TravelDiaryContract.RecordEntry.COLUMN_UUID, model.getUuid())).getId());
-		}
-		catch (RecordNotFoundException e) {
-			exists = false;
-		}
 
 		if (exists) {
 			String selection = TravelDiaryContract.RecordEntry.COLUMN_ID_RECORD + " LIKE ?";
@@ -134,9 +137,13 @@ public abstract class RecordHelper {
 		record.setIdTrip(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_TRIP)));
 		record.setDayFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_DAY)), "yyyy-MM-dd'T'HH:mm:ssZ");
 		record.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UUID)));
-		record.getLocation().setLatitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)));
-		record.getLocation().setLongitude(c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)));
-		record.getLocation().setAltitude(c.getInt(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE)));
+
+		record.setLocation(new Location(
+				c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE)),
+				c.getDouble(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE)),
+				c.getInt(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE))
+		));
+
 		record.setUpdatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_UPDATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 		record.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 

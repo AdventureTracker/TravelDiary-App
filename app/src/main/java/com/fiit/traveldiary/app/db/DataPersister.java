@@ -83,7 +83,6 @@ public abstract class DataPersister {
 			Trip trip = new Trip(jsonObject);
 			trip.setSyncStatus(SyncStatus.SYNCED);
 			TripHelper.persist(trip);
-			// TODO: persist records
 		} catch (InvalidInputException e) {
 			return false;
 		} catch (JSONException e) {
@@ -94,6 +93,19 @@ public abstract class DataPersister {
 	}
 
 	public static boolean persistRecord(JSONObject jsonObject) {
+		try {
+			Record record = new Record(jsonObject);
+			Log.w("Location", String.valueOf(record.getLocation().getLatitude()));
+			record.setSyncStatus(SyncStatus.SYNCED);
+			RecordHelper.persist(record);
+		}
+		catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		} catch (InvalidInputException e) {
+			e.printStackTrace();
+			return false;
+		}
 		return false;
 	}
 

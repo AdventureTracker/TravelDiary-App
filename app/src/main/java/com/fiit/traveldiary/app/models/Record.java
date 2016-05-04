@@ -1,7 +1,10 @@
 package com.fiit.traveldiary.app.models;
 
+import android.util.Log;
 import com.fiit.traveldiary.app.db.SyncStatus;
+import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.helpers.RecordTypeHelper;
+import com.fiit.traveldiary.app.db.helpers.TripHelper;
 import com.fiit.traveldiary.app.db.helpers.UserHelper;
 import com.fiit.traveldiary.app.exceptions.InvalidInputException;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
@@ -45,7 +48,6 @@ public class Record extends Model {
 
 	public Record(JSONObject object) throws InvalidInputException, JSONException {
 		super(object);
-		this.location = new Location();
 	}
 
 	public long getId() {
@@ -62,6 +64,11 @@ public class Record extends Model {
 
 	public void setIdTrip(long idTrip) {
 		this.idTrip = idTrip;
+		try {
+			this.trip = TripHelper.getOne(String.format("WHERE %s = %d", TravelDiaryContract.TripEntry.COLUMN_ID_TRIP, idTrip));
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public long getIdRecordType() {
@@ -86,6 +93,7 @@ public class Record extends Model {
 
 	public void setTrip(Trip trip) {
 		this.trip = trip;
+		this.idTrip = trip.getId();
 	}
 
 	public RecordType getRecordType() {
@@ -144,10 +152,7 @@ public class Record extends Model {
 	}
 
 	public Location getLocation() {
-		if (this.location == null)
-			this.location = new Location();
-
-		return location;
+		return this.location;
 	}
 
 	public void setLocation(Location location) {
@@ -254,11 +259,12 @@ public class Record extends Model {
 
 			if (jsonObject.has("coordinates")) {
 				JSONObject coordinates = jsonObject.getJSONObject("coordinates");
-				this.setLocation(new Location(
+
+				this.location = new Location(
 						coordinates.getDouble("latitude"),
 						coordinates.getDouble("longitude"),
 						coordinates.getInt("altitude")
-				));
+				);
 			}
 
 			if (jsonObject.has("author")) {
@@ -269,6 +275,12 @@ public class Record extends Model {
 			if (jsonObject.has("photos")) {
 				// TODO: fucking photos
 			}
+
+			if (jsonObject.has("createdAt"))
+				this.setCreatedAtFromString(jsonObject.getString("createdAt"), "yyyy-MM-dd'T'HH:mm:ssZ");
+
+			if (jsonObject.has("updatedAt"))
+				this.setUpdatedAtFromString(jsonObject.getString("updatedAt"), "yyyy-MM-dd'T'HH:mm:ssZ");
 
 		}
 		catch (JSONException e) {

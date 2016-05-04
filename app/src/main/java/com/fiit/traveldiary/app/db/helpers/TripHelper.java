@@ -57,7 +57,7 @@ public abstract class TripHelper {
 
 		if (model.getRecords() != null) {
 			for (Record record : model.getRecords()) {
-				record.setTrip(model);
+				record.setIdTrip(model.getId());
 				record.setSyncStatus(SyncStatus.SYNCED);
 				RecordHelper.persist(record);
 			}

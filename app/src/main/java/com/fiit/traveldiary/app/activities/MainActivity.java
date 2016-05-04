@@ -66,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 				networkSyncOperations.execute(
 						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}),
 						new ApiRequest(this.getBaseContext(), RequestType.TRIP_LIST, new String[]{}),
-						new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612"})
+						new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612"}),
+						new ApiRequest(this.getBaseContext(), RequestType.TRIP_RECORD, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612", "bf8730b8-5423-48dc-a57c-23ea7bdb809a"})
 				);
 				// Tu sprav sync
 //				Log.w("UserToken", preferences.getString("USER_TOKEN", "NOT_LOGGED_IN"));

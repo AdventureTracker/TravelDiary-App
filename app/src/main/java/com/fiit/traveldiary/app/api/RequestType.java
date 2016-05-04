@@ -14,7 +14,6 @@ public enum RequestType {
 	UPDATE_TRIP("UPDATE_TRIP"),
 	DELETE_TRIP("DELETE_TRIP"),
 	TRIP_RECORD("TRIP_RECORD"),
-	TRIP_RECORD_LIST("TRIP_RECORD_LIST"),
 	CREATE_TRIP_RECORD("CREATE_TRIP_RECORD"),
 	UPDATE_TRIP_RECORD("UPDATE_TRIP_RECORD"),
 	DELETE_TRIP_RECORD("DELETE_TRIP_RECORD"),
@@ -44,8 +43,6 @@ public enum RequestType {
 			case UPDATE_TRIP_RECORD:
 			case DELETE_TRIP_RECORD:
 				return "trip/%s/record/%s";
-			case TRIP_RECORD_LIST:
-				return "trip/%s/records";
 			case CREATE_TRIP_RECORD:
 				return "trip/%s/record";
 			case ENUMS:
@@ -65,7 +62,6 @@ public enum RequestType {
 			case TRIP:
 			case TRIP_LIST:
 			case TRIP_RECORD:
-			case TRIP_RECORD_LIST:
 			case ENUMS:
 			case STATUS:
 				return ApiMethod.GET_METHOD;
@@ -83,7 +79,6 @@ public enum RequestType {
 	public boolean isArrayExpected() {
 		switch (this) {
 			case TRIP_LIST:
-			case TRIP_RECORD_LIST:
 				return true;
 			default:
 				return false;
@@ -96,7 +91,6 @@ public enum RequestType {
 			case TRIP:
 			case TRIP_LIST:
 			case TRIP_RECORD:
-			case TRIP_RECORD_LIST:
 			case ENUMS:
 				return true;
 			default:

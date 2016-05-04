@@ -58,6 +58,8 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 					DataPersister.persistTrips(response.getContent());
 				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP))
 					DataPersister.persistTrip(response.getContent());
+				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_RECORD))
+					DataPersister.persistRecord(response.getContent());
 			}
 		}
 	}
