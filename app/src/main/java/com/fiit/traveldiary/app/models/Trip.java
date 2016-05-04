@@ -2,7 +2,9 @@ package com.fiit.traveldiary.app.models;
 
 import android.util.Log;
 import com.fiit.traveldiary.app.db.SyncStatus;
+import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.helpers.PrivacyHelper;
+import com.fiit.traveldiary.app.db.helpers.RecordHelper;
 import com.fiit.traveldiary.app.db.helpers.StatusHelper;
 import com.fiit.traveldiary.app.exceptions.InvalidInputException;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
@@ -367,7 +369,17 @@ public class Trip extends Model {
 			JSONArray recordsArray = jsonObject.getJSONArray("records");
 
 			for (int i = 0; i < recordsArray.length(); i++) {
-				this.addRecord(new Record(recordsArray.getJSONObject(i)));
+
+				Record record;
+
+				try {
+					record = RecordHelper.getOne(String.format("WHERE %s = '%s'", TravelDiaryContract.RecordEntry.COLUMN_UUID, recordsArray.getJSONObject(i).getString("id")));
+				}
+				catch (RecordNotFoundException e) {
+					record = new Record();
+				}
+				record.parseJSON(recordsArray.getJSONObject(i));
+				this.records.add(record);
 			}
 		}
 

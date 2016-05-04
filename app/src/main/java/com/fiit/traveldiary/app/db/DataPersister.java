@@ -3,6 +3,7 @@ package com.fiit.traveldiary.app.db;
 import android.util.Log;
 import com.fiit.traveldiary.app.db.helpers.*;
 import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
 import com.fiit.traveldiary.app.models.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,7 +62,14 @@ public abstract class DataPersister {
 
 			for (int i = 0; i < trips.length(); i++) {
 				try {
-					Trip trip = new Trip(trips.getJSONObject(i));
+					Trip trip;
+					try {
+						trip = TripHelper.getOne(String.format("WHERE %s = '%s'", TravelDiaryContract.TripEntry.COLUMN_UUID, trips.getJSONObject(i).getString("id")));
+					}
+					catch (RecordNotFoundException e) {
+						trip = new Trip();
+					}
+					trip.parseJSON(trips.getJSONObject(i));
 					trip.setSyncStatus(SyncStatus.SYNCED);
 					TripHelper.persist(trip);
 				} catch (InvalidInputException e) {
