@@ -16,7 +16,7 @@ import com.securepreferences.SecurePreferences;
 import java.util.List;
 
 /**
- * Tato aktivita bude sluzit na stiahnute ENUMs a sync, overenie prihlasenia a podobne, zatial len force login
+ * Tato aktivita bude sluzit na stiahnute ENUMs a sync, overenie prihlasenia a podobne
  */
 public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver{
 
@@ -24,10 +24,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		setContentView(R.layout.record_data);
-
-		String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-
-		Log.w("UUID", android_id);
 
 //		List<RecordType> recordTypeList = new ArrayList<RecordType>();
 //
@@ -41,26 +37,17 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 //
 //		spinner.setAdapter(recordTypeArrayAdapter);
 
-//		NetworkSyncOperations networkOperations = new NetworkSyncOperations();
-//		networkOperations.execute(new ApiRequest(this.getBaseContext(), ApiMethod.GET_METHOD, "status"));
+		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
-		// TODO: toto odkomentuj az ked si budes isty ze mas spravnu databazu
-		SQLiteProvider.getInstance(this.getBaseContext());
+		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
 
-		Log.w("Database", SQLiteProvider.getInstance().toString());
-		SQLiteProvider.getInstance().getReadableDatabase();
+		if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+		}
+		else {
 
-//		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
-//		networkSyncOperations.setDelegate(this);
-//		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}));
-
-		if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
-			SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
-			if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
-				Intent intent = new Intent(this, LoginActivity.class);
-				startActivity(intent);
-			}
-			else {
+			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
 				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 				networkSyncOperations.setDelegate(this);
 				networkSyncOperations.execute(
@@ -70,12 +57,14 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 						new ApiRequest(this.getBaseContext(), RequestType.TRIP_RECORD, new String[]{"b429b294-ac24-423f-bb5a-a90998dd7612", "bf8730b8-5423-48dc-a57c-23ea7bdb809a"})
 				);
 				// Tu sprav sync
-//				Log.w("UserToken", preferences.getString("USER_TOKEN", "NOT_LOGGED_IN"));
 			}
+			else {
+				this.startTripListActivity();
+			}
+
 		}
-		else {
-			Log.w("NetworkAct", "Si offline kokot!");
-		}
+
+
 
 	}
 
@@ -88,12 +77,9 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		int id = item.getItemId();
 
-		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_settings) {
 			return true;
 		}
@@ -104,10 +90,11 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 	@Override
 	public void processFinish(List<ApiResponse> apiResponses) {
+		this.startTripListActivity();
+	}
 
-		for (ApiResponse response : apiResponses) {
-			Log.w("ApiResponses", response.getContent().toString());
-		}
-
+	private void startTripListActivity() {
+		Intent intent = new Intent(this, TripListActivity.class);
+		startActivity(intent);
 	}
 }

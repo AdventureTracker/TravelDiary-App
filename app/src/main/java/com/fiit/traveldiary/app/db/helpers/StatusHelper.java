@@ -47,8 +47,6 @@ public abstract class StatusHelper {
 				c.getString(c.getColumnIndex(TravelDiaryContract.StatusEntry.COLUMN_DESCRIPTION))
 		);
 
-		Log.w("Status", String.valueOf(status.getId()));
-
 		c.close();
 
 		return status;

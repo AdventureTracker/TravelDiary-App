@@ -52,8 +52,6 @@ public abstract class UserHelper {
 				c.getString(c.getColumnIndex(TravelDiaryContract.UserEntry.COLUMN_UUID))
 		);
 
-		Log.w("User", String.valueOf(user.getId()));
-
 		c.close();
 
 		return user;

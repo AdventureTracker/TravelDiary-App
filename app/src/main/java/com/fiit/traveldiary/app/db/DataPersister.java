@@ -95,7 +95,6 @@ public abstract class DataPersister {
 	public static boolean persistRecord(JSONObject jsonObject) {
 		try {
 			Record record = new Record(jsonObject);
-			Log.w("Location", String.valueOf(record.getLocation().getLatitude()));
 			record.setSyncStatus(SyncStatus.SYNCED);
 			RecordHelper.persist(record);
 		}
