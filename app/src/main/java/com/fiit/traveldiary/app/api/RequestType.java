@@ -36,9 +36,8 @@ public enum RequestType {
 			case DELETE_TRIP:
 				return "trip/%s";
 			case TRIP_LIST:
-				return "trips";
 			case CREATE_TRIP:
-				return "trip";
+				return "trips";
 			case TRIP_RECORD:
 			case UPDATE_TRIP_RECORD:
 			case DELETE_TRIP_RECORD:
@@ -97,5 +96,19 @@ public enum RequestType {
 				return false;
 		}
 
+	}
+
+	public boolean isExecutiveRequest() {
+		switch (this) {
+			case CREATE_TRIP:
+			case UPDATE_TRIP:
+			case DELETE_TRIP:
+			case CREATE_TRIP_RECORD:
+			case UPDATE_TRIP_RECORD:
+			case DELETE_TRIP_RECORD:
+				return true;
+			default:
+				return false;
+		}
 	}
 }

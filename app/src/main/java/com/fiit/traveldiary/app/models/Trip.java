@@ -289,8 +289,8 @@ public class Trip extends Model {
 		tripItem.put("id", this.getUuid());
 		tripItem.put("name", this.getName());
 		tripItem.put("destination", this.getDestination());
-		tripItem.put("status", this.getStatus());
-		tripItem.put("privacy", this.getPrivacy());
+		tripItem.put("status", this.getStatus().getCode());
+		tripItem.put("privacy", this.getPrivacy().getCode());
 		tripItem.put("description", this.getDescription());
 		tripItem.put("start_date", dateFormat.format(this.getStartDate()));
 		tripItem.put("estimated_arrival_date", dateFormat.format(this.getEstimatedArrival()));

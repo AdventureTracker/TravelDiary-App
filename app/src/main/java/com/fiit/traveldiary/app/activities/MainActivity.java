@@ -24,19 +24,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.record_data);
-
-//		List<RecordType> recordTypeList = new ArrayList<RecordType>();
-//
-//		recordTypeList.add(new RecordType(46, "HITCHHIKING_START", "Hitchhiking start destination"));
-//		recordTypeList.add(new RecordType(42, "CAMPING", "Camping stuff"));
-//
-//		Spinner spinner = (Spinner) findViewById(R.id.recordType);
-//
-//		ArrayAdapter<RecordType> recordTypeArrayAdapter = new ArrayAdapter<RecordType>(this, android.R.layout.simple_spinner_item, recordTypeList);
-//		recordTypeArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//		spinner.setAdapter(recordTypeArrayAdapter);
 
 		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
@@ -61,9 +48,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 			}
 
 		}
-
-
-
 	}
 
 	@Override
@@ -94,5 +78,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 	private void startTripListActivity() {
 		Intent intent = new Intent(this, TripListActivity.class);
 		startActivity(intent);
+		finish();
 	}
 }

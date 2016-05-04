@@ -59,7 +59,13 @@ public class User extends Model {
 
 	@Override
 	public JSONObject toJSON(boolean detailed) {
-		return null;
+		JSONObject object = new JSONObject();
+		try {
+			object.put("id", this.getUuid());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return object;
 	}
 
 	@Override

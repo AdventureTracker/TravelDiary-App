@@ -1,6 +1,7 @@
 package com.fiit.traveldiary.app.api.provider;
 
 import android.provider.Settings;
+import android.util.Log;
 import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.exceptions.InternalException;
@@ -40,6 +41,8 @@ public class RestProvider implements ApiProvider {
 			// Creating URL object based on ApiRequest
 			url = new URL(String.format("%s/v%d/%s", API_LOCATION, API_VERSION, request.getUri()));
 
+			Log.w("ApiCall", String.format("%s/v%d/%s", API_LOCATION, API_VERSION, request.getUri()));
+
 			// Opening HttpURLConnection
 			connection = (HttpsURLConnection) url.openConnection();
 
@@ -67,6 +70,8 @@ public class RestProvider implements ApiProvider {
 
 				connection.setDoOutput(true);
 
+				Log.w("RequestBody", request.getContent().toString());
+
 				OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
 				writer.write(request.getContent().toString());
 				writer.flush();
@@ -85,7 +90,14 @@ public class RestProvider implements ApiProvider {
 		JSONObject responseObject;
 
 		try {
-			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+			if (connection.getResponseCode() >= 200 && connection.getResponseCode() < 400) {
+				reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			}
+			else {
+				reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+			}
+
 			StringBuilder stringBuilder = new StringBuilder();
 			String line;
 

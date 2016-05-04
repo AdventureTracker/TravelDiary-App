@@ -48,8 +48,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 
 	private void onLoginButtonClick(View view) {
 
-		//FIXME: dojebany server, nemam ako testovat
-
 		JSONObject jsonObject = new JSONObject();
 
 		try {
@@ -66,9 +64,6 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 		networkSyncOperations.setDelegate(this);
 		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), RequestType.LOGIN, new String[]{}, jsonObject));
-
-//		if (this.getUsername().getText().toString().equals("jakub.dubec@gmail.com") && this.getPassword().getText().toString().equals("Andromeda246"))
-//			this.openTripsActivity();
 
 	}
 
@@ -91,13 +86,13 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 				return;
 			}
 
-			this.openTripsActivity();
+			this.openMainActivity();
 
 		}
 	}
 
-	private void openTripsActivity() {
-		Intent intent = new Intent(this, TripListActivity.class);
+	private void openMainActivity() {
+		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
 	}

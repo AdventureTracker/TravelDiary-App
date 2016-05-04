@@ -4,11 +4,13 @@ package com.fiit.traveldiary.app.activities;
  * Created by Barbora on 14.4.2016.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -52,6 +54,24 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 		findViewById(R.id.circleButton).setOnClickListener(this);
 		listView = (ListView) findViewById(R.id.listView);
 
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Trip trip = (Trip) parent.getItemAtPosition(position);
+				createTrip(trip.getId());
+			}
+		});
+
+		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				Trip trip = (Trip) parent.getItemAtPosition(position);
+				Log.w("List", trip.getDestination());
+				return true;
+			}
+		});
+
 		if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
 			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 			networkSyncOperations.setDelegate(this);
@@ -68,7 +88,7 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.circleButton:
-				//TODO implement
+				createTrip(0);
 				break;
 		}
 	}
@@ -82,5 +102,11 @@ public class TripListActivity extends AppCompatActivity implements View.OnClickL
 		ArrayList<Trip> trips = (ArrayList<Trip>) TripHelper.getAll(String.format("WHERE %s != '%s'", TravelDiaryContract.TripEntry.COLUMN_SYNC, SyncStatus.REMOVED));
 		TripAdapter adapter = new TripAdapter(this, trips);
 		listView.setAdapter(adapter);
+	}
+
+	private void createTrip(long idTrip) {
+		Intent intent = new Intent(this, TripDataActivity.class);
+		intent.putExtra("idTrip", idTrip);
+		startActivity(intent);
 	}
 }

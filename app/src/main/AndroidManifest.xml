@@ -30,6 +30,8 @@
 			android:name=".activities.TripListActivity"
 			android:label="@string/app_name" />
 
+		<activity android:name=".activities.TripDataActivity" />
+
 		<activity
 			android:name=".activities.RecordListActivity"
 			android:label="@string/app_name" />

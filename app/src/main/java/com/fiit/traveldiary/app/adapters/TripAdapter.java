@@ -1,6 +1,7 @@
 package com.fiit.traveldiary.app.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ public class TripAdapter extends ArrayAdapter<Trip> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		Trip trip = getItem(position);
+		final Trip trip = getItem(position);
 
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.trip_item, parent, false);
@@ -38,4 +39,6 @@ public class TripAdapter extends ArrayAdapter<Trip> {
 		return convertView;
 
 	}
+
+
 }
