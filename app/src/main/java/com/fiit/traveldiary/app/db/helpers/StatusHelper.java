@@ -34,7 +34,6 @@ public abstract class StatusHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = '%s' LIMIT 1;", TravelDiaryContract.StatusEntry.TABLE_NAME, TravelDiaryContract.StatusEntry.COLUMN_CODE, code);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -57,8 +56,6 @@ public abstract class StatusHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = %d LIMIT 1;", TravelDiaryContract.StatusEntry.TABLE_NAME, TravelDiaryContract.StatusEntry.COLUMN_ID_STATUS, id);
-		Log.e(SQLiteProvider.LOG, sql);
-
 		Cursor c = db.rawQuery(sql, null);
 
 		if (!c.moveToFirst())

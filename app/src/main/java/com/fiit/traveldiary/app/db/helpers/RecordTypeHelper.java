@@ -34,7 +34,6 @@ public abstract class RecordTypeHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = '%s' LIMIT 1;", TravelDiaryContract.RecordTypeEntry.TABLE_NAME, TravelDiaryContract.RecordTypeEntry.COLUMN_CODE, code);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -57,7 +56,6 @@ public abstract class RecordTypeHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = %d LIMIT 1;", TravelDiaryContract.RecordTypeEntry.TABLE_NAME, TravelDiaryContract.RecordTypeEntry.COLUMN_ID_RECORD_TYPE, id);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -77,11 +75,7 @@ public abstract class RecordTypeHelper {
 
 	public static boolean removeAll() {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getWritableDatabase();
-		boolean success = db.delete(TravelDiaryContract.RecordTypeEntry.TABLE_NAME, null, null) != 0;
-
-		//TODO: reset AUTO_INCREMENT, table sqlite_sequence (name:value)
-
-		return success;
+		return db.delete(TravelDiaryContract.RecordTypeEntry.TABLE_NAME, null, null) != 0;
 	}
 
 }

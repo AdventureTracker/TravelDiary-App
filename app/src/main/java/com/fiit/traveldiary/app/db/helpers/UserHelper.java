@@ -33,7 +33,6 @@ public abstract class UserHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = '%s' LIMIT 1;", TravelDiaryContract.UserEntry.TABLE_NAME, TravelDiaryContract.UserEntry.COLUMN_UUID, uuid);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -57,7 +56,6 @@ public abstract class UserHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = %d LIMIT 1;", TravelDiaryContract.UserEntry.TABLE_NAME, TravelDiaryContract.UserEntry.COLUMN_ID_USER, id);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 

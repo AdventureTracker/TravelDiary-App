@@ -80,7 +80,6 @@ public abstract class TripHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s %s;", TravelDiaryContract.TripEntry.TABLE_NAME, filter);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -116,7 +115,6 @@ public abstract class TripHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s %s LIMIT 1;", TravelDiaryContract.TripEntry.TABLE_NAME, filter);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 

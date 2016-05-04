@@ -34,7 +34,6 @@ public abstract class PrivacyHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = '%s' LIMIT 1;", TravelDiaryContract.PrivacyEntry.TABLE_NAME, TravelDiaryContract.PrivacyEntry.COLUMN_CODE, code);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
@@ -57,7 +56,6 @@ public abstract class PrivacyHelper {
 		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
 
 		String sql = String.format("SELECT * FROM %s WHERE %s = %d LIMIT 1;", TravelDiaryContract.PrivacyEntry.TABLE_NAME, TravelDiaryContract.PrivacyEntry.COLUMN_ID_PRIVACY, id);
-		Log.e(SQLiteProvider.LOG, sql);
 
 		Cursor c = db.rawQuery(sql, null);
 
