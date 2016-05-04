@@ -25,15 +25,27 @@ public abstract class RecordHelper {
 
 		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_ID_TRIP, model.getTrip().getId());
 		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_ID_RECORD_TYPE, model.getRecordType().getId());
-		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_ID_USER, model.getUser().getId());
 		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_UUID, model.getUuid());
 		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_DESCRIPTION, model.getDescription());
-		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE, model.getLocation().getLatitude());
-		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE, model.getLocation().getLongitude());
-		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE, model.getLocation().getAltitude());
+
+		if (model.getUser() != null)
+			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_ID_USER, model.getUser().getId());
+
+		if (model.getLocation() != null) {
+			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_LATITUDE, model.getLocation().getLatitude());
+			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_LONGITUDE, model.getLocation().getLongitude());
+			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_ALTITUDE, model.getLocation().getAltitude());
+		}
+
 		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_DAY, model.getDayAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
-		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_UPDATED_AT, model.getUpdatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
-		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT, model.getCreatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
+
+		if (model.getCreatedAt() != null)
+			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_UPDATED_AT, model.getUpdatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
+
+		if (model.getUpdatedAt() != null)
+			contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_CREATED_AT, model.getCreatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
+
+		contentValues.put(TravelDiaryContract.RecordEntry.COLUMN_SYNC, model.getSyncStatus().toString());
 
 		boolean exists = true;
 
@@ -115,6 +127,7 @@ public abstract class RecordHelper {
 		}
 
 		Record record = new Record();
+
 		record.setId(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_RECORD)));
 		record.setIdRecordType(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_RECORD_TYPE)));
 		record.setIdUser(c.getLong(c.getColumnIndex(TravelDiaryContract.RecordEntry.COLUMN_ID_USER)));

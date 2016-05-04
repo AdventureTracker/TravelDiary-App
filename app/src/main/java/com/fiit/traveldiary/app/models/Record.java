@@ -1,6 +1,10 @@
 package com.fiit.traveldiary.app.models;
 
+import com.fiit.traveldiary.app.db.SyncStatus;
+import com.fiit.traveldiary.app.db.helpers.RecordTypeHelper;
+import com.fiit.traveldiary.app.db.helpers.UserHelper;
 import com.fiit.traveldiary.app.exceptions.InvalidInputException;
+import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +35,7 @@ public class Record extends Model {
 	private Location location;
 	private Date createdAt;
 	private Date updatedAt;
+	private SyncStatus syncStatus;
 
 	private List<Photo> photos;
 
@@ -139,6 +144,9 @@ public class Record extends Model {
 	}
 
 	public Location getLocation() {
+		if (this.location == null)
+			this.location = new Location();
+
 		return location;
 	}
 
@@ -149,6 +157,14 @@ public class Record extends Model {
 	public void addPhoto(Photo photo) {
 		if (!this.photos.contains(photo))
 			this.photos.add(photo);
+	}
+
+	public SyncStatus getSyncStatus() {
+		return syncStatus;
+	}
+
+	public void setSyncStatus(SyncStatus syncStatus) {
+		this.syncStatus = syncStatus;
 	}
 
 	public boolean removePhoto(Photo photo) {
@@ -176,6 +192,10 @@ public class Record extends Model {
 	}
 
 	public boolean setCreatedAtFromString(String date, String format) {
+
+		if (date == null)
+			return false;
+
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		try {
 			this.setCreatedAt(dateFormat.parse(date));
@@ -199,6 +219,10 @@ public class Record extends Model {
 	}
 
 	public boolean setUpdatedAtFromString(String date, String format) {
+
+		if (date == null)
+			return false;
+
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		try {
 			this.setUpdatedAt(dateFormat.parse(date));
@@ -220,7 +244,41 @@ public class Record extends Model {
 
 	@Override
 	public boolean parseJSON(JSONObject jsonObject) {
-		return false;
+		try {
+			this.setUuid(jsonObject.getString("id"));
+			this.setRecordType(RecordTypeHelper.get(jsonObject.getString("type")));
+			this.setDayFromString(jsonObject.getString("day"), "yyyy-MM-dd");
+
+			if (jsonObject.has("description"))
+				this.setDescription(jsonObject.getString("description"));
+
+			if (jsonObject.has("coordinates")) {
+				JSONObject coordinates = jsonObject.getJSONObject("coordinates");
+				this.setLocation(new Location(
+						coordinates.getDouble("latitude"),
+						coordinates.getDouble("longitude"),
+						coordinates.getInt("altitude")
+				));
+			}
+
+			if (jsonObject.has("author")) {
+				JSONObject author = jsonObject.getJSONObject("author");
+				this.setUser(UserHelper.get(author.getString("id")));
+			}
+
+			if (jsonObject.has("photos")) {
+				// TODO: fucking photos
+			}
+
+		}
+		catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		} catch (RecordNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	public String toString() {

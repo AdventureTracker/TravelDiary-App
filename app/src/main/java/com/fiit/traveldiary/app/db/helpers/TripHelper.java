@@ -9,6 +9,7 @@ import com.fiit.traveldiary.app.db.SyncStatus;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
+import com.fiit.traveldiary.app.models.Record;
 import com.fiit.traveldiary.app.models.Trip;
 
 import java.util.ArrayList;
@@ -52,6 +53,14 @@ public abstract class TripHelper {
 			long primaryKey;
 			primaryKey = db.insert(TravelDiaryContract.TripEntry.TABLE_NAME, null, contentValues);
 			model.setId(primaryKey);
+		}
+
+		if (model.getRecords() != null) {
+			for (Record record : model.getRecords()) {
+				record.setTrip(model);
+				record.setSyncStatus(SyncStatus.SYNCED);
+				RecordHelper.persist(record);
+			}
 		}
 
 		return model.getId();
