@@ -57,7 +57,11 @@ Aplikacie je momentalne v stadiu vyvoja a preto nie su spristupneje jej vsetky c
  - [X] Zadefinovane aktivity
  - [X] Objekty na pracu s lokalnym cache (praca so SQLite)
  - [ ] Synhronizacia
- - [ ] Auth
+ 	- [X] Enums
+ 	- [ ] Trips
+ 	- [ ] TripRecords
+ 	- [ ] Photos
+ - [X] Auth
 
 ## Credentials
 
