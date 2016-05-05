@@ -36,7 +36,6 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 			responses.add(call.execute());
 
 		}
-
 		return responses;
 	}
 

@@ -19,4 +19,6 @@
     <string name="RecordType">Record Type</string>
     <string name="SelectPhoto">Select Photo</string>
     <string name="TripImage">Trip image</string>
+    <string name="LoadingMessage">Loading</string>
+    <string name="TravelDiary">TravelDiary</string>
 </resources>

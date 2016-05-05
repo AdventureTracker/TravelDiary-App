@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.activity_main);
+
 		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
 		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
