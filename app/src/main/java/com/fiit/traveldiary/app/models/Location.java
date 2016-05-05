@@ -46,7 +46,7 @@ public class Location {
 	}
 
 	public String toString() {
-		return null;
+		return String.format("Latitude: %f | Longitude: %f | Altitude: %d", this.getLatitude(), this.getLongitude(), this.getAltitude());
 	}
 
 	public JSONObject toJSON() throws JSONException {

@@ -249,8 +249,17 @@ public class Record extends Model {
 	}
 
 	@Override
-	public JSONObject toJSON(boolean detailed) {
-		return null;
+	public JSONObject toJSON(boolean detailed) throws JSONException {
+
+		JSONObject jsonObject = new JSONObject();
+
+		jsonObject.put("id", this.getUuid());
+		jsonObject.put("description", this.getDescription());
+		jsonObject.put("day", this.getDayAsString("yyyy-MM-dd"));
+		jsonObject.put("type", this.getRecordType().getCode());
+		jsonObject.put("coordinates", this.location.toJSON());
+
+		return jsonObject;
 	}
 
 	@Override

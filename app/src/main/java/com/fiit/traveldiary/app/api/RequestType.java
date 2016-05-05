@@ -43,7 +43,7 @@ public enum RequestType {
 			case DELETE_TRIP_RECORD:
 				return "trip/%s/record/%s";
 			case CREATE_TRIP_RECORD:
-				return "trip/%s/record";
+				return "trip/%s/records";
 			case ENUMS:
 				return "enums";
 			default:

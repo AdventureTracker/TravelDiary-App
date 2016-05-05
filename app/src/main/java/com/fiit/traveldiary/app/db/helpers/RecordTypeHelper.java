@@ -9,6 +9,9 @@ import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
 import com.fiit.traveldiary.app.models.RecordType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Jakub Dubec on 17/04/16.
  */
@@ -26,6 +29,35 @@ public abstract class RecordTypeHelper {
 		recordType.setId(db.insert(TravelDiaryContract.RecordTypeEntry.TABLE_NAME, null, contentValues)); //insert a rovno nasetuj ID
 
 		return recordType.getId();
+
+	}
+
+	public static List<RecordType> getAll() {
+
+		SQLiteDatabase db = SQLiteProvider.getInstance().getReadableDatabase();
+
+		String sql = String.format("SELECT * FROM %s", TravelDiaryContract.RecordTypeEntry.TABLE_NAME);
+
+		Cursor c = db.rawQuery(sql, null);
+
+		List<RecordType> recordTypeList = new ArrayList<RecordType>();
+
+		if (c.moveToFirst()) {
+
+			do {
+				RecordType recordType = new RecordType(
+						c.getLong(c.getColumnIndex(TravelDiaryContract.RecordTypeEntry.COLUMN_ID_RECORD_TYPE)),
+						c.getString(c.getColumnIndex(TravelDiaryContract.RecordTypeEntry.COLUMN_CODE)),
+						c.getString(c.getColumnIndex(TravelDiaryContract.RecordTypeEntry.COLUMN_DESCRIPTION))
+				);
+
+				recordTypeList.add(recordType);
+			} while (c.moveToNext());
+		}
+
+		c.close();
+
+		return recordTypeList;
 
 	}
 

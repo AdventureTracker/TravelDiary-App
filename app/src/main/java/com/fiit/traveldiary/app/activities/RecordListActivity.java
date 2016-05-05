@@ -123,7 +123,8 @@ public class RecordListActivity extends AppCompatActivity implements View.OnClic
 
 	public void createRecord(long idRecord) {
 		Intent intent = new Intent(this, RecordDataActivity.class);
-		intent.putExtra("idTrip", idRecord);
+		intent.putExtra("idRecord", idRecord);
+		intent.putExtra("idTrip", this.trip.getId());
 		startActivity(intent);
 	}
 }
