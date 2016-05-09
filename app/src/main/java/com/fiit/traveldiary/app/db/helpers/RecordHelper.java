@@ -9,6 +9,7 @@ import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.exceptions.RecordNotFoundException;
 import com.fiit.traveldiary.app.models.Location;
+import com.fiit.traveldiary.app.models.Photo;
 import com.fiit.traveldiary.app.models.Record;
 
 import java.util.ArrayList;
@@ -68,6 +69,10 @@ public abstract class RecordHelper {
 			long primaryKey;
 			primaryKey = db.insert(TravelDiaryContract.RecordEntry.TABLE_NAME, null, contentValues);
 			model.setId(primaryKey);
+		}
+
+		for (Photo photo : model.getPhotos()) {
+			PhotoHelper.persist(photo);
 		}
 
 		return model.getId();
