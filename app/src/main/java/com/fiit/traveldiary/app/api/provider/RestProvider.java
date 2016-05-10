@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by jdubec on 13/04/16.
@@ -57,9 +58,15 @@ public class RestProvider implements ApiProvider {
 			connection.setRequestProperty(DEVICE_HEADER, Settings.Secure.getString(request.getContentResolver(), Settings.Secure.ANDROID_ID));
 
 			SecurePreferences preferences = new SecurePreferences(request.getBaseContext());
-
 			if (preferences.getString("USER_TOKEN", null) != null)
 				connection.setRequestProperty(TOKEN_HEADER, preferences.getString("USER_TOKEN", ""));
+
+			// Custom request headers
+			if (!request.getHeaders().isEmpty()) {
+				for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
+					connection.setRequestProperty(entry.getKey(), entry.getValue());
+				}
+			}
 
 			connection.setDoInput(true);
 			connection.setUseCaches(false);

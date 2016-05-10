@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import com.fiit.traveldiary.app.activities.AsyncTaskReceiver;
 import com.fiit.traveldiary.app.api.provider.RestProvider;
+import com.fiit.traveldiary.app.api.provider.WebsocketProvider;
 import com.fiit.traveldiary.app.db.DataPersister;
 import com.fiit.traveldiary.app.exceptions.InternalException;
 
@@ -28,7 +29,12 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 			ApiCall call;
 			publishProgress((int) ((i / (float) requestsCount) * 100));
 			try {
-				call = new ApiCall(params[i], RestProvider.class);
+				if (params[i].getProvider() == WebsocketProvider.class) {
+					call = new ApiCall(params[i], WebsocketProvider.class);
+				}
+				else {
+					call = new ApiCall(params[i], RestProvider.class);
+				}
 			} catch (InternalException e) {
 				return null;
 			}
