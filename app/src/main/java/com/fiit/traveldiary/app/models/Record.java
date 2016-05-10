@@ -1,6 +1,5 @@
 package com.fiit.traveldiary.app.models;
 
-import android.util.Log;
 import com.fiit.traveldiary.app.db.SyncStatus;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.helpers.RecordTypeHelper;

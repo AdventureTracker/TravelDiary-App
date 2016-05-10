@@ -26,7 +26,6 @@ public abstract class PhotoHelper {
 		contentValues.put(TravelDiaryContract.PhotoEntry.COLUMN_ID_RECORD, model.getIdRecord());
 		contentValues.put(TravelDiaryContract.PhotoEntry.COLUMN_FILENAME, model.getFilename());
 		contentValues.put(TravelDiaryContract.PhotoEntry.COLUMN_UUID, model.getUuid());
-		contentValues.put(TravelDiaryContract.PhotoEntry.COLUMN_DATA, model.getData());
 		contentValues.put(TravelDiaryContract.PhotoEntry.COLUMN_CREATED_AT, model.getCreatedAtAsString("yyyy-MM-dd'T'HH:mm:ssZ"));
 
 		boolean exists = true;
@@ -76,7 +75,6 @@ public abstract class PhotoHelper {
 				photo.setIdRecord(c.getLong(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_ID_RECORD)));
 				photo.setFilename(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_FILENAME)));
 				photo.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_UUID)));
-				photo.setData(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_DATA)));
 				photo.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 				photos.add(photo);
@@ -103,7 +101,6 @@ public abstract class PhotoHelper {
 		photo.setIdRecord(c.getLong(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_ID_RECORD)));
 		photo.setFilename(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_FILENAME)));
 		photo.setUuid(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_UUID)));
-		photo.setData(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_DATA)));
 		photo.setCreatedAtFromString(c.getString(c.getColumnIndex(TravelDiaryContract.PhotoEntry.COLUMN_CREATED_AT)), "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 		c.close();

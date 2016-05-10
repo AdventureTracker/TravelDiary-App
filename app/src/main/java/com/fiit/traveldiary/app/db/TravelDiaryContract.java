@@ -164,7 +164,6 @@ public final class TravelDiaryContract {
 		public static final String COLUMN_ID_RECORD 			= "id_record";
 		public static final String COLUMN_UUID 					= "pht_uuid";
 		public static final String COLUMN_FILENAME 				= "pht_filename";
-		public static final String COLUMN_DATA 					= "pht_data";
 		public static final String COLUMN_SYNC 					= "trp_sync"; //REMOVED, UPDATED, CREATED, SYNCED
 		public static final String COLUMN_CREATED_AT 			= "pht_createdAt";
 
@@ -174,7 +173,6 @@ public final class TravelDiaryContract {
 						COLUMN_ID_RECORD + DatabaseConstants.SQLITE_INTEGER_TYPE + DatabaseConstants.COMMA_SEP +
 						COLUMN_UUID + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 						COLUMN_FILENAME + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
-						COLUMN_DATA + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 						COLUMN_SYNC + DatabaseConstants.SQLITE_TEXT_TYPE + DatabaseConstants.COMMA_SEP +
 						COLUMN_CREATED_AT + DatabaseConstants.SQLITE_TIMESTAMP_TYPE + DatabaseConstants.COMMA_SEP +
 						"FOREIGN KEY(" + COLUMN_ID_RECORD + ") REFERENCES " + RecordEntry.TABLE_NAME + "(" + RecordEntry.COLUMN_ID_RECORD + ")" +

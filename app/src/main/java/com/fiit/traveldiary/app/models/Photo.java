@@ -24,7 +24,6 @@ public class Photo extends Model {
 	private String filename;
 	private Record record;
 	private Date createdAt;
-	private String data;
 
 	public Photo() {
 	}
@@ -73,14 +72,6 @@ public class Photo extends Model {
 
 	public void setFilename(String filename) {
 		this.filename = filename;
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
 	}
 
 	public Date getCreatedAt() {

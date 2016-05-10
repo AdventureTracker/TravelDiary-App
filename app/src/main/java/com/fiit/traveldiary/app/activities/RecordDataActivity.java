@@ -188,20 +188,13 @@ public class RecordDataActivity extends AppCompatActivity implements View.OnClic
 			Photo photo;
 
 			try {
-				photo = PhotoHelper.getOne(String.format("WHERE %s = '%s'", TravelDiaryContract.PhotoEntry.COLUMN_DATA, photoUri.toString()));
+				photo = PhotoHelper.getOne(String.format("WHERE %s = '%s'", TravelDiaryContract.PhotoEntry.COLUMN_FILENAME, photoUri.toString()));
 			}
 			catch (RecordNotFoundException e) {
 				photo = new Photo();
 				photo.setUuid(UUID.randomUUID().toString());
 				photo.setFilename(photoUri.toString());
 				photo.setCreatedAt(new Date());
-				Bitmap bitmap = null;
-				try {
-					bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				photo.setData(Base64Helper.bitmapToBase64(bitmap));
 			}
 
 			if (!record.getPhotos().contains(photo)) {
