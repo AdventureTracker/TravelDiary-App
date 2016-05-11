@@ -20,7 +20,7 @@
 		android:weightSum="1"
 		android:layout_alignParentStart="true"
 		android:layout_alignParentEnd="true"
-		android:layout_below="@+id/toolbar">
+	>
 
 		<EditText
 			android:layout_width="300dp"
@@ -41,12 +41,20 @@
 		<EditText
 			android:layout_width="300dp"
 			android:layout_height="wrap_content"
-			android:inputType="textMultiLine"
 			android:ems="10"
-			android:id="@+id/description"
+			android:id="@+id/decsription"
 			android:hint="@string/Description"
+			android:layout_weight="0.08"
 			android:layout_gravity="center_horizontal"
-			/>
+
+			android:minLines="3"
+			android:scrollHorizontally="false"
+			android:scrollbarAlwaysDrawVerticalTrack="true"
+			android:scrollbarStyle="insideInset"
+			android:scrollbars="vertical"
+			android:overScrollMode="always"
+			android:inputType="textCapSentences"/>
+
 
 		<Button
 			android:layout_width="130dp"
@@ -59,19 +67,28 @@
 			android:onClick="selectPhotos"
 			/>
 
-		<Button
-			android:layout_width="130dp"
-			android:layout_height="50dp"
-			android:text="@string/Save"
-			android:id="@+id/recordDataSave"
-			android:layout_gravity="bottom|center"
-			android:background="#5d95f6"
-			android:textColorHighlight="#000000"
-			android:singleLine="false"
-			android:elegantTextHeight="false"
-			android:onClick="processForm"
-			/>
-
+		<Spinner
+				android:layout_width="300dp"
+				android:layout_height="wrap_content"
+				android:id="@+id/selectedPhoto" android:layout_gravity="center_horizontal"/>
+		<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="174dp"
+				android:layout_height="276dp" android:layout_gravity="bottom|right">
+			<Button
+                android:layout_width="130dp"
+                android:layout_height="50dp"
+                android:text="@string/Save"
+                android:id="@+id/recordDataSave"
+                android:layout_gravity="bottom|center_horizontal|right"
+                android:background="#5d95f6"
+                android:textColorHighlight="#000000"
+                android:singleLine="false"
+                android:elegantTextHeight="false"
+                android:onClick="processForm"
+            />
 		</LinearLayout>
+
+	</LinearLayout>
 
 </RelativeLayout>

@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -94,6 +95,7 @@ public class RecordDataActivity extends AppCompatActivity implements View.OnClic
 		setContentView(R.layout.record_data);
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		EditText description = (EditText) findViewById(R.id.description);
 
 		// toolbar.setTitle(R.string.toolbarTitle);
 		setSupportActionBar(toolbar);
@@ -149,6 +151,22 @@ public class RecordDataActivity extends AppCompatActivity implements View.OnClic
 		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 60000, 10, mLocationListener);
 
 		this.photoList = new ArrayList<Uri>();
+
+		description.setOnTouchListener(new View.OnTouchListener() {
+
+			public boolean onTouch(View view, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (view.getId() ==R.id.description) {
+					view.getParent().requestDisallowInterceptTouchEvent(true);
+					switch (event.getAction()&MotionEvent.ACTION_MASK){
+						case MotionEvent.ACTION_UP:
+							view.getParent().requestDisallowInterceptTouchEvent(false);
+							break;
+					}
+				}
+				return false;
+			}
+		});
 	}
 
 	private EditText getDate(){
