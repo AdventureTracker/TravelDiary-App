@@ -6,6 +6,8 @@ import com.fiit.traveldiary.app.api.provider.ApiProvider;
 import com.fiit.traveldiary.app.api.provider.RestProvider;
 import org.json.JSONObject;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -28,6 +30,7 @@ public class ApiRequest extends ContextWrapper{
 	public ApiRequest(Context base) {
 		super(base);
 		this.provider = RestProvider.class;
+		this.headers = Collections.emptyMap();
 	}
 
 	public ApiRequest(Context context, RequestType requestType, String[] params, JSONObject content)  {
@@ -65,15 +68,12 @@ public class ApiRequest extends ContextWrapper{
 		return this.provider;
 	}
 
-	public void setProvider(Class provider) {
+	public ApiRequest setProvider(Class provider) {
 		this.provider = provider;
+		return this;
 	}
 
 	public Map<String, String> getHeaders() {
 		return headers;
-	}
-
-	public void setHeaders(Map<String, String> headers) {
-		this.headers = headers;
 	}
 }

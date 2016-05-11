@@ -62,7 +62,7 @@ public class RestProvider implements ApiProvider {
 				connection.setRequestProperty(TOKEN_HEADER, preferences.getString("USER_TOKEN", ""));
 
 			// Custom request headers
-			if (!request.getHeaders().isEmpty()) {
+			if (request.getHeaders() != null && !request.getHeaders().isEmpty()) {
 				for (Map.Entry<String, String> entry : request.getHeaders().entrySet()) {
 					connection.setRequestProperty(entry.getKey(), entry.getValue());
 				}
