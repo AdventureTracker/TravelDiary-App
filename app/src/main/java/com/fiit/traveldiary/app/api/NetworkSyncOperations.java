@@ -46,25 +46,31 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 	}
 
 	protected void onPostExecute(List<ApiResponse> responses) {
+
 		for (ApiResponse response : responses) {
 			if (response == null) {
 				Log.w("API Response", "Invalid API Call");
 				continue;
 			}
 
-			if (response.getOriginalRequest().getRequestType().isPersistRequest()) {
-				if (response.getOriginalRequest().getRequestType().equals(RequestType.ENUMS))
-					DataPersister.persistEnums(response.getContent());
-				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_LIST))
-					DataPersister.persistTrips(response.getContent());
-				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP))
-					DataPersister.persistTrip(response.getContent());
-				else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_RECORD))
-					DataPersister.persistRecord(response.getContent());
+			// Callback a persist iba ak sa jedna o REST provider
+			if (response.getOriginalRequest().getProvider().equals(RestProvider.class)) {
+
+				if (response.getOriginalRequest().getRequestType().isPersistRequest()) {
+					if (response.getOriginalRequest().getRequestType().equals(RequestType.ENUMS))
+						DataPersister.persistEnums(response.getContent());
+					else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_LIST))
+						DataPersister.persistTrips(response.getContent());
+					else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP))
+						DataPersister.persistTrip(response.getContent());
+					else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_RECORD))
+						DataPersister.persistRecord(response.getContent());
+				}
+
+				if (this.delegate != null)
+					this.delegate.processFinish(responses);
+
 			}
 		}
-
-		if (this.delegate != null)
-			this.delegate.processFinish(responses);
 	}
 }

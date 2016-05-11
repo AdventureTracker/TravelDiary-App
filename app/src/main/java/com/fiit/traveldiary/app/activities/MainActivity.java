@@ -10,10 +10,15 @@ import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.api.NetworkSyncOperations;
 import com.fiit.traveldiary.app.api.RequestType;
+import com.fiit.traveldiary.app.api.connection.WebsocketConnectionManager;
+import com.fiit.traveldiary.app.api.provider.WebsocketProvider;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
 import com.securepreferences.SecurePreferences;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -27,29 +32,36 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 		setContentView(R.layout.activity_main);
 
-		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
+		JSONObject test = new JSONObject();
 
-		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
+		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+		networkSyncOperations.execute(
+				(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class)
+		);
 
-		if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
-			Intent intent = new Intent(this, LoginActivity.class);
-			startActivity(intent);
-		}
-		else {
-
-			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
-				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
-				networkSyncOperations.setDelegate(this);
-				networkSyncOperations.execute(
-						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})
-				);
-				// Tu sprav sync
-			}
-			else {
-				this.startTripListActivity();
-			}
-
-		}
+//		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
+//
+//		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
+//
+//		if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
+//			Intent intent = new Intent(this, LoginActivity.class);
+//			startActivity(intent);
+//		}
+//		else {
+//
+//			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
+//				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+//				networkSyncOperations.setDelegate(this);
+//				networkSyncOperations.execute(
+//						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})
+//				);
+//				// Tu sprav sync
+//			}
+//			else {
+//				this.startTripListActivity();
+//			}
+//
+//		}
 	}
 
 	@Override
