@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -48,6 +49,7 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 		setContentView(R.layout.trip_data);
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		EditText description = (EditText) findViewById(R.id.description);
 
 		// toolbar.setTitle(R.string.toolbarTitle);
 		setSupportActionBar(toolbar);
@@ -85,6 +87,22 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 					new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{trip.getUuid()})
 			);
 		}
+
+		description.setOnTouchListener(new View.OnTouchListener() {
+
+			public boolean onTouch(View view, MotionEvent event) {
+				// TODO Auto-generated method stub
+				if (view.getId() ==R.id.description) {
+					view.getParent().requestDisallowInterceptTouchEvent(true);
+					switch (event.getAction()&MotionEvent.ACTION_MASK){
+						case MotionEvent.ACTION_UP:
+							view.getParent().requestDisallowInterceptTouchEvent(false);
+							break;
+					}
+				}
+				return false;
+			}
+		});
 
 		this.setListeners();
 	}
@@ -163,6 +181,8 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 				}
 			}
 		});
+
+
 
 	}
 
