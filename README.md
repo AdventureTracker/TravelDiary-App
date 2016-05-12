@@ -4,6 +4,7 @@ TravelDiary App
 [![Apiary Documentation](https://img.shields.io/badge/Apiary-Documented-blue.svg)](http://docs.traveldiaryapi.apiary.io/)
 
 [Back-end Documentation](https://github.com/MTAA-FIIT/TravelDiary-Api/blob/master/README.md)
+[Web-socket Documentation](https://github.com/MTAA-FIIT/TravelDiary-Websockets/blob/master/README.md)
 
 Repozitar mobilnej aplikacie pre zadanie z predmetu MTAA na FIIT STU.
 

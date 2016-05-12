@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 		setContentView(R.layout.activity_main);
 
+		try {
+			WebsocketConnectionManager.getInstance().getSocket().emit("ping");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
 		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
 		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
