@@ -1,11 +1,17 @@
 package com.fiit.traveldiary.app.api.connection;
 
 import android.util.Log;
+import com.fiit.traveldiary.app.api.RequestType;
+import com.fiit.traveldiary.app.db.DataPersister;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 
 /**
@@ -42,16 +48,40 @@ public class WebsocketConnectionManager {
 			public void call(Object... args) {
 
 				JSONObject jsonObject = (JSONObject) args[0];
+				JSONObject responseObject;
 				Log.w("Socket.io", String.format("Received: %s", jsonObject.toString()));
 
-			}
-		});
 
-		this.socket.on("test", new Emitter.Listener() {
-			@Override
-			public void call(Object... args) {
-				JSONObject jsonObject = (JSONObject) args[0];
-				Log.w("Socket.io", jsonObject.toString());
+				try {
+					RequestType originalRequestType = RequestType.valueOf(jsonObject.getString("requestType"));
+
+					if (jsonObject.getInt("status") >= 200 && jsonObject.getInt("status") < 400) {
+
+						if (originalRequestType.isArrayExpected()) {
+							responseObject = new JSONObject();
+							responseObject.put("records", jsonObject.getJSONArray("content"));
+						}
+						else {
+							responseObject = jsonObject.getJSONObject("content");
+						}
+
+						if (originalRequestType.isPersistRequest()) {
+							if (originalRequestType.equals(RequestType.ENUMS))
+								DataPersister.persistEnums(responseObject);
+							else if (originalRequestType.equals(RequestType.TRIP_LIST))
+								DataPersister.persistTrips(responseObject);
+							else if (originalRequestType.equals(RequestType.TRIP))
+								DataPersister.persistTrip(responseObject);
+							else if (originalRequestType.equals(RequestType.TRIP_RECORD))
+								DataPersister.persistRecord(responseObject);
+						}
+
+					}
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
 			}
 		});
 
