@@ -32,11 +32,6 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 		setContentView(R.layout.activity_main);
 
-//		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
-//		networkSyncOperations.execute(
-//				(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class)
-//		);
-
 		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
 		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
@@ -51,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 				networkSyncOperations.setDelegate(this);
 				networkSyncOperations.execute(
-						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})
+						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}),
+						(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class)
 				);
 				// Tu sprav sync
 			}

@@ -46,6 +46,7 @@ public class RestProvider implements ApiProvider {
 
 			// Opening HttpURLConnection
 			connection = (HttpsURLConnection) url.openConnection();
+			connection.setConnectTimeout(5000);
 
 			// Hostname verifer
 			connection.setHostnameVerifier(NetworkActivityManager.createHostnameVerifier());
@@ -87,16 +88,24 @@ public class RestProvider implements ApiProvider {
 
 			connection.connect();
 
-		} catch (MalformedURLException e) {
+		}
+		catch (java.net.SocketTimeoutException e) {
+			return new ApiResponse(500, new JSONObject(), request);
+		}
+		catch (MalformedURLException e) {
 			throw new InternalException("Invalid request!", e);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new InternalException("Unable to create REST request", e);
 		}
 
 		BufferedReader reader;
 		JSONObject responseObject;
+		int responseCode = 500;
 
 		try {
+
+			responseCode = connection.getResponseCode();
 
 			if (connection.getResponseCode() >= 200 && connection.getResponseCode() < 400) {
 				reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -123,11 +132,13 @@ public class RestProvider implements ApiProvider {
 			}
 
 		} catch (IOException e) {
+			connection.disconnect();
 			throw new InternalException("Some kind of shitty IO exception", e);
 		} catch (JSONException e) {
-			throw new InternalException("Invalid JSON string!", e);
+			Log.w("RestProvier", "JSON shit happens with status code " + responseCode);
+			connection.disconnect();
+			return new ApiResponse(responseCode, new JSONObject(), request);
 		}
-
 		try {
 			connection.disconnect();
 			return new ApiResponse(connection.getResponseCode(), responseObject, request);

@@ -54,7 +54,7 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 			}
 
 			// Callback a persist iba ak sa jedna o REST provider
-			if (response.getOriginalRequest().getProvider().equals(RestProvider.class)) {
+			if (response.getOriginalRequest().getProvider() == RestProvider.class) {
 
 				if (response.getOriginalRequest().getRequestType().isPersistRequest()) {
 					if (response.getOriginalRequest().getRequestType().equals(RequestType.ENUMS))

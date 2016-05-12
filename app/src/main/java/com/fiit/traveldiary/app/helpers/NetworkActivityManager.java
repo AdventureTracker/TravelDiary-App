@@ -42,13 +42,14 @@ public abstract class NetworkActivityManager {
 				if (responses.size() > 0 && responses.get(0).getStatus() == 200)
 					return true;
 			} catch (InterruptedException e) {
+				Log.w("NetworkActivity", "No network available!");
 				return false;
 			} catch (ExecutionException e) {
+				Log.w("NetworkActivity", "No network available!");
 				return false;
 			}
-		} else {
-			Log.d("NetworkActivity", "No network available!");
 		}
+		Log.w("NetworkActivity", "No network available!");
 		return false;
 	}
 
