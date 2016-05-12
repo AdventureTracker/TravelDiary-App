@@ -12,13 +12,19 @@ import com.fiit.traveldiary.app.api.NetworkSyncOperations;
 import com.fiit.traveldiary.app.api.RequestType;
 import com.fiit.traveldiary.app.api.connection.WebsocketConnectionManager;
 import com.fiit.traveldiary.app.api.provider.WebsocketProvider;
+import com.fiit.traveldiary.app.db.SyncStatus;
+import com.fiit.traveldiary.app.db.TravelDiaryContract;
+import com.fiit.traveldiary.app.db.helpers.TripHelper;
 import com.fiit.traveldiary.app.db.provider.SQLiteProvider;
 import com.fiit.traveldiary.app.helpers.NetworkActivityManager;
+import com.fiit.traveldiary.app.models.Trip;
 import com.securepreferences.SecurePreferences;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,14 +48,38 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 		}
 		else {
 
+			List<Trip> createdTrips = TripHelper.getAll(String.format("WHERE %s = '%s'", TravelDiaryContract.TripEntry.COLUMN_SYNC, SyncStatus.CREATED));
+			List<Trip> updatedTrips = TripHelper.getAll(String.format("WHERE %s = '%s'", TravelDiaryContract.TripEntry.COLUMN_SYNC, SyncStatus.UPDATED));
+			List<Trip> removedTrips = TripHelper.getAll(String.format("WHERE %s = '%s'", TravelDiaryContract.TripEntry.COLUMN_SYNC, SyncStatus.REMOVED));
+
+			List<ApiRequest> apiRequests = new ArrayList<ApiRequest>();
+			apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}));
+			apiRequests.add((new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class));
+
+			for (Trip trip : createdTrips) {
+				try {
+					apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.CREATE_TRIP, new String[]{}, trip.toJSON(true)));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			for (Trip trip : updatedTrips) {
+				try {
+					apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.UPDATE_TRIP, new String[]{trip.getUuid()}, trip.toJSON(true)));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+
+			for (Trip trip : removedTrips) {
+				apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.DELETE_TRIP, new String[]{trip.getUuid()}));
+			}
+
 			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
 				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 				networkSyncOperations.setDelegate(this);
-				networkSyncOperations.execute(
-						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}),
-						(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class)
-				);
-				// Tu sprav sync
+				networkSyncOperations.execute((ApiRequest[]) apiRequests.toArray());
 			}
 			else {
 				this.startTripListActivity();
