@@ -32,36 +32,34 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 		setContentView(R.layout.activity_main);
 
-		JSONObject test = new JSONObject();
+//		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+//		networkSyncOperations.execute(
+//				(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class)
+//		);
 
-		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
-		networkSyncOperations.execute(
-				(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class)
-		);
+		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
-//		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
-//
-//		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
-//
-//		if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
-//			Intent intent = new Intent(this, LoginActivity.class);
-//			startActivity(intent);
-//		}
-//		else {
-//
-//			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
-//				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
-//				networkSyncOperations.setDelegate(this);
-//				networkSyncOperations.execute(
-//						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})
-//				);
-//				// Tu sprav sync
-//			}
-//			else {
-//				this.startTripListActivity();
-//			}
-//
-//		}
+		SecurePreferences preferences = new SecurePreferences(this.getBaseContext());
+
+		if (preferences.getString("USER_TOKEN", "NOT_LOGGED_IN").equals("NOT_LOGGED_IN")) {
+			Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+		}
+		else {
+
+			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
+				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
+				networkSyncOperations.setDelegate(this);
+				networkSyncOperations.execute(
+						new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})
+				);
+				// Tu sprav sync
+			}
+			else {
+				this.startTripListActivity();
+			}
+
+		}
 	}
 
 	@Override
