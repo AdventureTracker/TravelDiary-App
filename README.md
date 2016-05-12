@@ -52,7 +52,7 @@ Este raz pre istotu spomenieme ze dokumentacia k plne funkcnemu API (za predpokl
 Aplikacie je momentalne v stadiu vyvoja a preto nie su spristupneje jej vsetky casti.
 
  - [X] Objekty na pracu s REST API
- - [ ] Objekty na pracu s WebSocket
+ - [X] Objekty na pracu s WebSocket
  - [ ] Datove entity
  - [X] Zadefinovane aktivity
  - [X] Objekty na pracu s lokalnym cache (praca so SQLite)
