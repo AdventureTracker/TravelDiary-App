@@ -42,7 +42,7 @@
 			android:layout_width="300dp"
 			android:layout_height="wrap_content"
 			android:ems="10"
-			android:id="@+id/decsription"
+			android:id="@+id/recordDataDescription"
 			android:hint="@string/Description"
 			android:layout_weight="0.08"
 			android:layout_gravity="center_horizontal"

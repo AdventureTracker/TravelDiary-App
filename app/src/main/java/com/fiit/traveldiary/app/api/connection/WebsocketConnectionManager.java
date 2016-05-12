@@ -6,12 +6,8 @@ import com.fiit.traveldiary.app.db.DataPersister;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 
 /**
@@ -40,6 +36,15 @@ public class WebsocketConnectionManager {
 			public void call(Object... args) {
 				JSONObject jsonObject = (JSONObject) args[0];
 				Log.w("Socket.io", jsonObject.toString());
+			}
+		});
+
+		this.socket.on("pong", new Emitter.Listener() {
+			@Override
+			public void call(Object... args) {
+				Log.w("Socket.io", "Pong");
+				JSONObject jsonObject = (JSONObject) args[0];
+				Log.w("Socket.io", String.format("Received: %s", jsonObject.toString()));
 			}
 		});
 

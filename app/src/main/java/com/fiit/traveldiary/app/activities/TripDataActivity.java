@@ -49,7 +49,7 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 		setContentView(R.layout.trip_data);
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		EditText description = (EditText) findViewById(R.id.description);
+		EditText description = (EditText) findViewById(R.id.tripDataDescription);
 
 		// toolbar.setTitle(R.string.toolbarTitle);
 		setSupportActionBar(toolbar);
@@ -124,7 +124,7 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 	}
 
 	private EditText getDecsription(){
-		return (EditText) findViewById(R.id.decsription);
+		return (EditText) findViewById(R.id.tripDataDescription);
 	}
 
 	private Spinner getStatusSpinner() { return (Spinner) findViewById(R.id.tripStatusSpinner); }

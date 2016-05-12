@@ -38,11 +38,11 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 		setContentView(R.layout.activity_main);
 
-		try {
-			WebsocketConnectionManager.getInstance().getSocket().emit("ping");
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			WebsocketConnectionManager.getInstance().getSocket().emit("ping", "");
+//		} catch (URISyntaxException e) {
+//			e.printStackTrace();
+//		}
 
 		SQLiteProvider.getInstance(this.getBaseContext()).getReadableDatabase();
 
@@ -60,32 +60,32 @@ public class MainActivity extends AppCompatActivity implements AsyncTaskReceiver
 
 			List<ApiRequest> apiRequests = new ArrayList<ApiRequest>();
 			apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{}));
-			apiRequests.add((new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class));
+//			apiRequests.add((new ApiRequest(this.getBaseContext(), RequestType.ENUMS, new String[]{})).setProvider(WebsocketProvider.class));
 
-			for (Trip trip : createdTrips) {
-				try {
-					apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.CREATE_TRIP, new String[]{}, trip.toJSON(true)));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-
-			for (Trip trip : updatedTrips) {
-				try {
-					apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.UPDATE_TRIP, new String[]{trip.getUuid()}, trip.toJSON(true)));
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-
-			for (Trip trip : removedTrips) {
-				apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.DELETE_TRIP, new String[]{trip.getUuid()}));
-			}
+//			for (Trip trip : createdTrips) {
+//				try {
+//					apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.CREATE_TRIP, new String[]{}, trip.toJSON(true)));
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//
+//			for (Trip trip : updatedTrips) {
+//				try {
+//					apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.UPDATE_TRIP, new String[]{trip.getUuid()}, trip.toJSON(true)));
+//				} catch (JSONException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//
+//			for (Trip trip : removedTrips) {
+//				apiRequests.add(new ApiRequest(this.getBaseContext(), RequestType.DELETE_TRIP, new String[]{trip.getUuid()}));
+//			}
 
 			if (NetworkActivityManager.hasActiveInternetConnection(this.getBaseContext())) {
 				NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 				networkSyncOperations.setDelegate(this);
-				networkSyncOperations.execute((ApiRequest[]) apiRequests.toArray());
+				networkSyncOperations.execute((ApiRequest[]) apiRequests.toArray(new ApiRequest[apiRequests.size()]));
 			}
 			else {
 				this.startTripListActivity();

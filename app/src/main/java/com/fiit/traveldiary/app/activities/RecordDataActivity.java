@@ -95,7 +95,7 @@ public class RecordDataActivity extends AppCompatActivity implements View.OnClic
 		setContentView(R.layout.record_data);
 
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-		EditText description = (EditText) findViewById(R.id.description);
+		EditText description = (EditText) findViewById(R.id.recordDataDescription);
 
 		// toolbar.setTitle(R.string.toolbarTitle);
 		setSupportActionBar(toolbar);
