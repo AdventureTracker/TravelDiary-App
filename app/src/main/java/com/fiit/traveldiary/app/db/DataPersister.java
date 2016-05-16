@@ -16,6 +16,8 @@ public abstract class DataPersister {
 
 	public static boolean persistEnums(JSONObject jsonObject) {
 
+		Log.w("DataPersister", "Persisting enums");
+
 		try {
 			// Status enum
 			JSONArray statusArray = jsonObject.getJSONArray("statuses");
@@ -57,6 +59,8 @@ public abstract class DataPersister {
 
 	public static boolean persistTrips(JSONObject jsonObject) {
 
+		Log.w("DataPersister", "Persisting trips");
+
 		try {
 			JSONArray trips = jsonObject.getJSONArray("records");
 
@@ -87,6 +91,9 @@ public abstract class DataPersister {
 	}
 
 	public static boolean persistTrip(JSONObject jsonObject) {
+
+		Log.w("DataPersister", "Persisting trip");
+
 		try {
 			Trip trip = new Trip(jsonObject);
 			trip.setSyncStatus(SyncStatus.SYNCED);
@@ -101,6 +108,9 @@ public abstract class DataPersister {
 	}
 
 	public static boolean persistRecord(JSONObject jsonObject) {
+
+		Log.w("DataPersister", "Persisting record");
+
 		try {
 			Record record = new Record(jsonObject);
 			record.setSyncStatus(SyncStatus.SYNCED);

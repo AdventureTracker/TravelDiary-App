@@ -25,6 +25,7 @@ import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.api.NetworkSyncOperations;
 import com.fiit.traveldiary.app.api.RequestType;
+import com.fiit.traveldiary.app.api.provider.RestProvider;
 import com.fiit.traveldiary.app.db.SyncStatus;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.helpers.RecordHelper;
@@ -83,7 +84,7 @@ public class RecordListActivity extends AppCompatActivity implements View.OnClic
 			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 			networkSyncOperations.setDelegate(this);
 			networkSyncOperations.execute(
-					new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{this.trip.getUuid()})
+					(new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{this.trip.getUuid()})).setProvider(RestProvider.class)
 			);
 		}
 		else {

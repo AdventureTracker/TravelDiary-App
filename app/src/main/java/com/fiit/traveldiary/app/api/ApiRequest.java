@@ -2,8 +2,10 @@ package com.fiit.traveldiary.app.api;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.util.Log;
 import com.fiit.traveldiary.app.api.provider.ApiProvider;
 import com.fiit.traveldiary.app.api.provider.RestProvider;
+import com.fiit.traveldiary.app.api.provider.WebsocketProvider;
 import org.json.JSONObject;
 
 import java.util.Collection;
@@ -29,7 +31,7 @@ public class ApiRequest extends ContextWrapper{
 	 */
 	public ApiRequest(Context base) {
 		super(base);
-		this.provider = RestProvider.class;
+		this.provider = WebsocketProvider.class;
 		this.headers = Collections.emptyMap();
 	}
 
@@ -39,6 +41,8 @@ public class ApiRequest extends ContextWrapper{
 		this.requestType = requestType;
 		this.urlParams = params;
 		this.content = content;
+		this.provider = WebsocketProvider.class;
+		this.headers = Collections.emptyMap();
 	}
 
 	public ApiRequest(Context context, RequestType requestType, String[] params)  {
@@ -46,6 +50,8 @@ public class ApiRequest extends ContextWrapper{
 		this.method = requestType.getApiMethod();
 		this.requestType = requestType;
 		this.urlParams = params;
+		this.provider = WebsocketProvider.class;
+		this.headers = Collections.emptyMap();
 	}
 
 	public ApiMethod getMethod() {

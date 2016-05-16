@@ -174,7 +174,7 @@ public class RecordDataActivity extends AppCompatActivity implements View.OnClic
 	}
 
 	private EditText getDescription(){
-		return (EditText) findViewById(R.id.description);
+		return (EditText) findViewById(R.id.recordDataDescription);
 	}
 	@Override
 	public void onClick(View view) {
@@ -265,7 +265,8 @@ public class RecordDataActivity extends AppCompatActivity implements View.OnClic
 	public void processFinish(List<ApiResponse> apiResponses) {
 		for (ApiResponse response : apiResponses) {
 			if (response.getOriginalRequest().getRequestType().isExecutiveRequest()) {
-				Log.w("ApiResponse", response.getContent().toString());
+				if (response.getContent() != null)
+					Log.w("ApiResponse", response.getContent().toString());
 				this.viewTrip();
 			}
 

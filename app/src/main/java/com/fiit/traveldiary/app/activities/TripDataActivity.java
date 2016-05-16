@@ -19,6 +19,8 @@ import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.api.NetworkSyncOperations;
 import com.fiit.traveldiary.app.api.RequestType;
+import com.fiit.traveldiary.app.api.provider.RestProvider;
+import com.fiit.traveldiary.app.api.provider.WebsocketProvider;
 import com.fiit.traveldiary.app.db.SyncStatus;
 import com.fiit.traveldiary.app.db.TravelDiaryContract;
 import com.fiit.traveldiary.app.db.helpers.PrivacyHelper;
@@ -84,7 +86,7 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 			networkSyncOperations.setDelegate(this);
 			networkSyncOperations.execute(
-					new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{trip.getUuid()})
+					(new ApiRequest(this.getBaseContext(), RequestType.TRIP, new String[]{trip.getUuid()})).setProvider(RestProvider.class)
 			);
 		}
 
@@ -220,13 +222,18 @@ public class TripDataActivity extends AppCompatActivity implements View.OnClickL
 	public void processFinish(List<ApiResponse> apiResponses) {
 		for (ApiResponse response : apiResponses) {
 
-			if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP)) {
-				Bundle extras = this.getIntent().getExtras();
-				long idTrip = extras.getLong("idTrip", 0);
-				prefillForm(idTrip);
+			if (response.getOriginalRequest().getProvider() != WebsocketProvider.class) {
+				if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP)) {
+					Bundle extras = this.getIntent().getExtras();
+					long idTrip = extras.getLong("idTrip", 0);
+					prefillForm(idTrip);
+				}
+				else if (response.getOriginalRequest().getRequestType().isExecutiveRequest()) {
+					Log.w("ApiResponse", response.getContent().toString());
+					this.listTrips();
+				}
 			}
-			else if (response.getOriginalRequest().getRequestType().isExecutiveRequest()) {
-				Log.w("ApiResponse", response.getContent().toString());
+			else {
 				this.listTrips();
 			}
 

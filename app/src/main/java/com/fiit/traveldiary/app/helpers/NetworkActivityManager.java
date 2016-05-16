@@ -8,6 +8,7 @@ import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.ApiResponse;
 import com.fiit.traveldiary.app.api.NetworkSyncOperations;
 import com.fiit.traveldiary.app.api.RequestType;
+import com.fiit.traveldiary.app.api.provider.RestProvider;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -38,7 +39,7 @@ public abstract class NetworkActivityManager {
 			NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 			List<ApiResponse> responses;
 			try {
-				responses = networkSyncOperations.execute(new ApiRequest(context, RequestType.STATUS, new String[]{})).get();
+				responses = networkSyncOperations.execute((new ApiRequest(context, RequestType.STATUS, new String[]{})).setProvider(RestProvider.class)).get();
 				if (responses.size() > 0 && responses.get(0).getStatus() == 200)
 					return true;
 			} catch (InterruptedException e) {

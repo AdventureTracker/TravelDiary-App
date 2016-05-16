@@ -18,6 +18,8 @@ public class WebsocketProvider implements ApiProvider {
 	@Override
 	public ApiResponse execute(ApiRequest request) {
 
+		Log.w("WebSocketProvider", "Web socket provider execute");
+
 		JSONObject data = new JSONObject();
 
 		try {
@@ -33,6 +35,10 @@ public class WebsocketProvider implements ApiProvider {
 			else
 				data.put("token", "NOT_AUTH");
 
+			if (request.getMethod().hasBody()) {
+				data.put("content", request.getContent().toString());
+			}
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 			return new ApiResponse(500, null, request);
@@ -40,7 +46,9 @@ public class WebsocketProvider implements ApiProvider {
 
 		try {
 			Log.w("socket.io", "Rest emit: " + data.toString());
-			WebsocketConnectionManager.getInstance().getSocket().emit("rest", data);
+			WebsocketConnectionManager.getInstance().getRequestStack().push(data);
+			WebsocketConnectionManager.getInstance().reconnect();
+//			WebsocketConnectionManager.getInstance().getSocket().emit("rest", data);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return new ApiResponse(500, null, request);

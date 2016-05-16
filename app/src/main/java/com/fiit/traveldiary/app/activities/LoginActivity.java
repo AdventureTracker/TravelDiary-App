@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import com.fiit.traveldiary.app.R;
 import com.fiit.traveldiary.app.api.*;
+import com.fiit.traveldiary.app.api.provider.RestProvider;
 import com.securepreferences.SecurePreferences;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,7 +64,7 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 
 		NetworkSyncOperations networkSyncOperations = new NetworkSyncOperations();
 		networkSyncOperations.setDelegate(this);
-		networkSyncOperations.execute(new ApiRequest(this.getBaseContext(), RequestType.LOGIN, new String[]{}, jsonObject));
+		networkSyncOperations.execute((new ApiRequest(this.getBaseContext(), RequestType.LOGIN, new String[]{}, jsonObject)).setProvider(RestProvider.class));
 
 	}
 
@@ -71,6 +72,9 @@ public class LoginActivity extends Activity implements View.OnClickListener, Asy
 	public void processFinish(List<ApiResponse> apiResponses) {
 
 		ApiResponse response = apiResponses.get(0);
+
+		if (response.getOriginalRequest().getProvider() != RestProvider.class)
+			return;
 
 		Log.w("LoginActivity", response.getContent().toString());
 

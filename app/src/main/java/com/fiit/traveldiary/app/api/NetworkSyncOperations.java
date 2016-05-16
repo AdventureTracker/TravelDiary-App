@@ -30,12 +30,15 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 			publishProgress((int) ((i / (float) requestsCount) * 100));
 			try {
 				if (params[i].getProvider() == WebsocketProvider.class) {
+					Log.w("NetworkSyncOperation", "Using websocket provider");
 					call = new ApiCall(params[i], WebsocketProvider.class);
 				}
 				else {
+					Log.w("NetworkSyncOperation", "Using REST provider");
 					call = new ApiCall(params[i], RestProvider.class);
 				}
 			} catch (InternalException e) {
+				e.printStackTrace();
 				return null;
 			}
 
@@ -66,11 +69,10 @@ public class NetworkSyncOperations extends AsyncTask<ApiRequest, Integer, List<A
 					else if (response.getOriginalRequest().getRequestType().equals(RequestType.TRIP_RECORD))
 						DataPersister.persistRecord(response.getContent());
 				}
-
-				if (this.delegate != null)
-					this.delegate.processFinish(responses);
-
 			}
 		}
+
+		if (this.delegate != null)
+			this.delegate.processFinish(responses);
 	}
 }
