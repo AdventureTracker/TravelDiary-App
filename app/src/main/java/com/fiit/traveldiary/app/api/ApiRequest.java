@@ -31,27 +31,23 @@ public class ApiRequest extends ContextWrapper{
 	 */
 	public ApiRequest(Context base) {
 		super(base);
-		this.provider = WebsocketProvider.class;
+		this.provider = RestProvider.class;
 		this.headers = Collections.emptyMap();
 	}
 
 	public ApiRequest(Context context, RequestType requestType, String[] params, JSONObject content)  {
-		super(context);
+		this(context);
 		this.method = requestType.getApiMethod();
 		this.requestType = requestType;
 		this.urlParams = params;
 		this.content = content;
-		this.provider = WebsocketProvider.class;
-		this.headers = Collections.emptyMap();
 	}
 
 	public ApiRequest(Context context, RequestType requestType, String[] params)  {
-		super(context);
+		this(context);
 		this.method = requestType.getApiMethod();
 		this.requestType = requestType;
 		this.urlParams = params;
-		this.provider = WebsocketProvider.class;
-		this.headers = Collections.emptyMap();
 	}
 
 	public ApiMethod getMethod() {

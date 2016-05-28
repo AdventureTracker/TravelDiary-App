@@ -1,14 +1,11 @@
 package com.fiit.traveldiary.app.api.connection;
 
 import android.util.Log;
-import com.fiit.traveldiary.app.api.ApiRequest;
 import com.fiit.traveldiary.app.api.RequestType;
 import com.fiit.traveldiary.app.db.DataPersister;
 import io.socket.client.IO;
-import io.socket.client.Manager;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import io.socket.engineio.client.Transport;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.URISyntaxException;
@@ -122,9 +119,6 @@ public class WebsocketConnectionManager {
 					socket.emit("rest", aRequestStack);
 				}
 				requestStack.clear();
-
-
-
 			}
 		});
 
